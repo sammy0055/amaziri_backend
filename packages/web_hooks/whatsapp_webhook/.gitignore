@@ -1,6 +1,0 @@
-.env
-.terraform
-/node_modules
-/dist
-/windows_386
-lambda_function_payload.zip
