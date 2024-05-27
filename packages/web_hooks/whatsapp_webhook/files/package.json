@@ -17,7 +17,8 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "query-string": "^9.0.0",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "amazir_data_model": "file:../../../shared_modules/models"
   },
   "devDependencies": {
     "@types/cors": "^2.8.15",

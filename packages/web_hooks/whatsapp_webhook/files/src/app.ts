@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { whatsappWebhook } from "./helpers/webhook";
+// import {ProfileEntry} from "amazir_data_model"
 
 export const app = express();
 app.use(cors({ origin: true, credentials: true }));
