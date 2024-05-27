@@ -1,0 +1,22 @@
+{
+  "name": "amazir_data_model",
+  "version": "1.0.0",
+  "description": "shared data model for amaziri project",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^8.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
