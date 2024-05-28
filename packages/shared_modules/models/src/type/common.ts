@@ -3,15 +3,15 @@ import { Schema } from "mongoose";
 export type ObjectId = Schema.Types.ObjectId;
 
 export interface Profile {
-    email: string;
-    firstName: string;
-    lastName: string;
-  }
+  email: string;
+  firstName: string;
+  lastName: string;
+}
 
 export interface OrganizationProfile {
-    name: string;
-    description: string;
-  }
+  name: string;
+  description: string;
+}
 
 export interface Organization extends OrganizationProfile {
   creator: ObjectId;
@@ -87,6 +87,7 @@ export interface WhatSappAccount {
   accessToken: String;
   whatsappId: string;
   isValid: boolean;
+  isSubscribedToWebhook: boolean;
   tokenType: string;
   mfaPin: string;
   phoneNumber: {
@@ -97,7 +98,7 @@ export interface WhatSappAccount {
 }
 
 export interface SessionCache {
-    userEmail: string;
-    profileId: ObjectId;
-    organizationProfileId: ObjectId;
-  }
+  userEmail: string;
+  profileId: ObjectId;
+  organizationProfileId: ObjectId;
+}

@@ -14,6 +14,7 @@ export interface WhatSappAccount {
   accessToken: String;
   whatsappId: string;
   isValid: boolean;
+  isSubscribedToWebhook: boolean;
   tokenType: string;
   mfaPin: string;
   phoneNumber: {

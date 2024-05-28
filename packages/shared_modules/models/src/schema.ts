@@ -72,6 +72,7 @@ const WhatSappAccount = new Schema<IWhatSappAccount>(
     accessToken: { type: String, required: true },
     whatsappId: { type: String, default: "" },
     isValid: { type: Boolean, default: true },
+    isSubscribedToWebhook:{type:Boolean, default:false},
     tokenType: { type: String },
     mfaPin: { type: String },
     phoneNumber: { type: WhatSappAccountPhoneNumber },

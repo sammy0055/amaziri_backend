@@ -17,23 +17,44 @@ export interface Workflow {
   workflowName: string;
   createdAt: Date;
   updatedAt: Date;
-  steps: Action[];
+  steps: Action<ActionNamesUnion>[];
 }
 
 // Step model
-export interface Action {
+export interface Action<T extends ActionNamesUnion> {
   actionId: string;
-  actionName: string;
+  actionName: T;
   stepOrder: number;
   category: string;
-  actionType: ActionType;
-  actionParameters: any; // Use appropriate types or interfaces for action parameters
+  actionType: ActionTypeUnion;
+  actionParameters: ActionParametersType[ActionNamesUnion]; // Use appropriate types or interfaces for action parameters
 }
+
+type ActionTypeUnion = `${ActionType}`;
+type ActionNamesUnion = `${ActionNames}`;
 
 export enum ActionType {
   Trigger = "trigger",
-  Integration = "integration",
-  Monitor = "monitor",
-  Response = "response",
-  addXAccount = "addxaccount",
+  WHATSAPP_MANAGER = "WHATSAPP_MANAGER",
 }
+
+export enum ActionNames {
+  GET_UNREAD_MESSAGES = "GET_UNREAD_MESSAGES",
+  SEND_MESSAGES = "SEND_MESSAGES",
+}
+
+export interface GetUnreadMessagesParams {
+  whatsappPhoneNumberId: string;
+  whatsappBusinessId: string;
+}
+
+interface SendMessagesParams {
+  whatsappPhoneNumberId: string;
+  whatsappBusinessId: string;
+  messages: {}[];
+}
+
+export type ActionParametersType = {
+  [ActionNames.GET_UNREAD_MESSAGES]: GetUnreadMessagesParams;
+  [ActionNames.SEND_MESSAGES]: SendMessagesParams;
+};

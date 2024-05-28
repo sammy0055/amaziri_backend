@@ -125,6 +125,21 @@ export class WhatSappAccountManager {
     };
   };
 
+  subScribeToWebhook = async (data: WhatSappAccount) => {
+    const url = `https://graph.facebook.com/v20.0/${data.whatsappId}/subscribed_apps`;
+    const res = await fetch(url, {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${data.accessToken}`,
+      },
+    });
+
+    if (!res.ok) {
+      const errorData: any = await res.json();
+      throw new Error(`Error ${res.status}: ${errorData.error.message}`);
+    }
+  };
+
   registerPhoneNumber = async (data: WhatSappAccount & { _id: string }) => {
     const whatsappData = (await WhatSappAccountEntry.findById(
       data._id
@@ -152,11 +167,13 @@ export class WhatSappAccountManager {
       throw new Error(`Error ${res.status}: ${errorData.error.message}`);
     }
 
+    await this.subScribeToWebhook(whatsappData);
     const updatedData = await WhatSappAccountEntry.findByIdAndUpdate(
       data._id,
       {
         $set: {
           mfaPin: MFAPIN,
+          isSubscribedToWebhook: true,
           phoneNumber: {
             id: phone_number.id,
             isRegistered: true,

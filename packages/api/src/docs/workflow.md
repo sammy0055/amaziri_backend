@@ -12,3 +12,9 @@
 <li>monitor social inbox for messages</li>
 <li>responsed to messages with knowledgeBase assistant</li>
 </ul>
+
+## new whatsapp workflow steps
+- get whatsapp unread messages
+- generate text with knowledgebase assistant
+- send messages with whatsapp
+
