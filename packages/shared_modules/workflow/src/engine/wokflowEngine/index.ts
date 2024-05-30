@@ -1,9 +1,9 @@
-import { ActionNames, Workflow, WorkflowActions } from "../../types";
+import { ActionNames, Workflow, WorkflowActionMethods } from "../../types";
 import { SendWhatSappMessage } from "../../actions";
 
 
 type ActionRegistry = {
-  [key in ActionNames]: WorkflowActions;
+  [key in ActionNames]: WorkflowActionMethods;
 };
 
 const WorkflowEngine = () => {

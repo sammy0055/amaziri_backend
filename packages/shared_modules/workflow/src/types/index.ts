@@ -49,11 +49,11 @@ export type ActionParametersType = {
   [ActionNames.SEND_MESSAGES]: SendMessagesParams;
 };
 
-export type WorkflowActions = {
+export type WorkflowActionMethods = {
   SendWhatSappMessage: (parameters:any) => WorkflowActionType
 }
 
-export interface WorkflowActionType {
+interface WorkflowActionType {
   validateParameters: () => boolean;
   execute: (data: any) => Promise<any>;
 }
