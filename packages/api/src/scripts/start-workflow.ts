@@ -1,6 +1,5 @@
 import { sendWhatSappMessagesData } from "../data/workflow/actionsData/whatsapp";
-import { Workflow } from "../types/workflow";
-import { WorkflowEngine } from "../workflow";
+import { WorkflowEngine, Workflow } from "amaziri_workflow";
 
 const workflowData: Workflow = {
   workflowId: "0",

@@ -25,7 +25,8 @@
     "mongoose": "^8.3.4",
     "pdf-parse": "^1.1.1",
     "uuid": "^9.0.1",
-    "amazir_data_model": "file:../shared_modules/models"
+    "amazir_data_model": "file:../shared_modules/models",
+    "amaziri_workflow": "file:../shared_modules/workflow"
   },
   "resolutions": {
     "@langchain/core": "~0.1.56"

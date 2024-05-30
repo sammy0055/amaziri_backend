@@ -1,4 +1,4 @@
-import { Action, ActionNames } from "../../../types/workflow";
+import { Action, ActionNames } from "amaziri_workflow";
 
 export const sendWhatSappMessagesData: Action<ActionNames.SEND_MESSAGES> = {
   actionId: "0",

@@ -1,7 +1,7 @@
-import { ActionParametersType, WorkflowActionType } from "../../../types/workflow";
+import { ActionParametersType } from "../../types";
 
-export const SendWhatSappMessage = (
-  parameters: ActionParametersType["SEND_MESSAGES"]
+const SendWhatSappMessage = (
+  parameters: ActionParametersType["SEND_WHATSAPP_MESSAGES"]
 ) => {
   const validateParameters = (): boolean => {
     return true;
@@ -19,3 +19,5 @@ export const SendWhatSappMessage = (
     execute,
   };
 };
+
+export { SendWhatSappMessage };

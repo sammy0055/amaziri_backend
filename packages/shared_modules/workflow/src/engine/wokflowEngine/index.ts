@@ -1,11 +1,12 @@
-import { ActionNames, Workflow, WorkflowActions } from "../types/workflow";
-import { SendWhatSappMessage } from "./actions/whatsapp";
+import { ActionNames, Workflow, WorkflowActions } from "../../types";
+import { SendWhatSappMessage } from "../../actions";
+
 
 type ActionRegistry = {
   [key in ActionNames]: WorkflowActions;
 };
 
-export const WorkflowEngine = () => {
+const WorkflowEngine = () => {
   const actionRegistry = {
     [ActionNames.SEND_MESSAGES]: SendWhatSappMessage,
   };
@@ -39,3 +40,5 @@ export const WorkflowEngine = () => {
     executeWorkflow,
   };
 };
+
+export { WorkflowEngine };

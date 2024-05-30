@@ -1,7 +1,3 @@
-import { Schema } from "mongoose";
-
-export type ObjectId = Schema.Types.ObjectId;
-
 // User model
 export interface User {
   userId: string;
@@ -40,7 +36,7 @@ export enum ActionType {
 
 export enum ActionNames {
   // AMAZIRI_ASSISSTANT = "AMAZIRI_ASSISSTANT",
-  SEND_MESSAGES = "SEND_MESSAGES",
+  SEND_MESSAGES = "SEND_WHATSAPP_MESSAGES",
 }
 
 interface SendMessagesParams {
