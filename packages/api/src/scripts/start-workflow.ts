@@ -1,9 +1,6 @@
+import { sendWhatSappMessagesData } from "../data/workflow/actionsData/whatsapp";
 import { Workflow } from "../types/workflow";
 import { WorkflowEngine } from "../workflow";
-import {
-  getWhatSappMessagesData,
-  sendWhatSappMessagesData,
-} from "../workflow/actions/whatsapp-manager";
 
 const workflowData: Workflow = {
   workflowId: "0",
@@ -11,8 +8,8 @@ const workflowData: Workflow = {
   workflowName: "test work flow",
   createdAt: new Date(),
   updatedAt: new Date(),
-  steps: [sendWhatSappMessagesData, getWhatSappMessagesData],
+  steps: [sendWhatSappMessagesData],
 };
 
-const { executeWorkflow } = new WorkflowEngine();
+const { executeWorkflow } = WorkflowEngine();
 executeWorkflow(workflowData);

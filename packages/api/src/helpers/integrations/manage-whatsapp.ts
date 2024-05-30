@@ -128,7 +128,7 @@ export class WhatSappAccountManager {
   subScribeToWebhook = async (data: WhatSappAccount) => {
     const url = `https://graph.facebook.com/v20.0/${data.whatsappId}/subscribed_apps`;
     const res = await fetch(url, {
-      method: "get",
+      method: "post",
       headers: {
         Authorization: `Bearer ${data.accessToken}`,
       },
@@ -138,6 +138,9 @@ export class WhatSappAccountManager {
       const errorData: any = await res.json();
       throw new Error(`Error ${res.status}: ${errorData.error.message}`);
     }
+
+    const resData = (await res.json()) as { success: boolean };
+    if (!resData.success) throw new Error(`webhook subscription failed`);
   };
 
   registerPhoneNumber = async (data: WhatSappAccount & { _id: string }) => {
@@ -167,7 +170,7 @@ export class WhatSappAccountManager {
       throw new Error(`Error ${res.status}: ${errorData.error.message}`);
     }
 
-    await this.subScribeToWebhook(whatsappData);
+     await this.subScribeToWebhook(whatsappData);
     const updatedData = await WhatSappAccountEntry.findByIdAndUpdate(
       data._id,
       {

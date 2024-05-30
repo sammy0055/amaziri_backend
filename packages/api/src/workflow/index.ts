@@ -1,50 +1,41 @@
-import { ActionNames, Workflow } from "../types/workflow";
-import {
-  GetUnreadMessages,
-  SendWhatSappMessages,
-} from "./actions/whatsapp-manager";
+import { ActionNames, Workflow, WorkflowActions } from "../types/workflow";
+import { SendWhatSappMessage } from "./actions/whatsapp";
 
-export abstract class BaseAction {
-  constructor(public parameters: any) {}
+type ActionRegistry = {
+  [key in ActionNames]: WorkflowActions;
+};
 
-  abstract execute(data: any): Promise<any>;
-  abstract validateParameters(): boolean;
-}
+export const WorkflowEngine = () => {
+  const actionRegistry = {
+    [ActionNames.SEND_MESSAGES]: SendWhatSappMessage,
+  };
 
-export class WorkflowEngine {
-  protected actionRegistry: { [key in ActionNames]: any };
-
-  constructor() {
-    this.actionRegistry = {
-      [ActionNames.GET_UNREAD_MESSAGES]: GetUnreadMessages,
-      [ActionNames.SEND_MESSAGES]: SendWhatSappMessages,
-    };
-    this.executeWorkflow = this.executeWorkflow.bind(this);
-  }
-
-  async executeWorkflow(workflow: Workflow): Promise<void> {
+  const executeWorkflow = async (workflow: Workflow): Promise<void> => {
     let stepData: any = null;
     const sortedSteps = workflow.steps.sort(
       (a, b) => a.stepOrder - b.stepOrder
     );
 
-       for (const step of sortedSteps) {
-         const ActionClass = this.actionRegistry[step.actionName];
-         if (!ActionClass) {
-           throw new Error(`Action type ${step.actionType} not supported.`);
-         }
+    for (const step of sortedSteps) {
+      const ActionClass = actionRegistry[step.actionName];
+      if (!ActionClass) {
+        throw new Error(`Action type ${step.actionName} not supported.`);
+      }
 
-         const action = new ActionClass(step.actionParameters);
-         if (!action.validateParameters()) {
-           throw new Error(
-             `Invalid parameters for action type ${step.actionType}.`
-           );
-         }
+      const action = ActionClass(step.actionParameters);
+      if (!action.validateParameters()) {
+        throw new Error(
+          `Invalid parameters for action type ${step.actionType}.`
+        );
+      }
 
-         // Execute the action and pass the result to the next step
-         stepData = await action.execute(stepData); // Pass data between steps if needed
-         console.log(`Step ${step.stepOrder} result:`, stepData);
-       }
- 
-  }
-}
+      // Execute the action and pass the result to the next step
+      stepData = await action.execute(stepData); // Pass data between steps if needed
+      console.log(`Step ${step.stepOrder} result:`, stepData);
+    }
+  };
+
+  return {
+    executeWorkflow,
+  };
+};

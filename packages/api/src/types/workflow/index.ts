@@ -39,22 +39,25 @@ export enum ActionType {
 }
 
 export enum ActionNames {
-  GET_UNREAD_MESSAGES = "GET_UNREAD_MESSAGES",
+  // AMAZIRI_ASSISSTANT = "AMAZIRI_ASSISSTANT",
   SEND_MESSAGES = "SEND_MESSAGES",
-}
-
-export interface GetUnreadMessagesParams {
-  whatsappPhoneNumberId: string;
-  whatsappBusinessId: string;
 }
 
 interface SendMessagesParams {
   whatsappPhoneNumberId: string;
   whatsappBusinessId: string;
-  messages: {}[];
+  messages: string[];
 }
 
 export type ActionParametersType = {
-  [ActionNames.GET_UNREAD_MESSAGES]: GetUnreadMessagesParams;
   [ActionNames.SEND_MESSAGES]: SendMessagesParams;
 };
+
+export type WorkflowActions = {
+  SendWhatSappMessage: (parameters:any) => WorkflowActionType
+}
+
+export interface WorkflowActionType {
+  validateParameters: () => boolean;
+  execute: (data: any) => Promise<any>;
+}
