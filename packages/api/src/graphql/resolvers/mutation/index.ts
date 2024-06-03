@@ -13,6 +13,7 @@ import { removeAssistant } from "./assistant/remove-assistant";
 import { addXAccount } from "./integrations/add-x-account";
 import { addwhatSappAccount } from "./integrations/add-whatsapp";
 import { registerWhatSappPhoneNumber, testWhatsappMessaging, updateWhatSappAccount } from "./integrations/update-whatsapp";
+import { addWorkflow } from "./workflow/add-workflow";
 
 export const mutations = {
   signUp: createUser,
@@ -31,5 +32,6 @@ export const mutations = {
   addwhatSappAccount,
   updateWhatSappAccount,
   registerWhatSappPhoneNumber,
-  testWhatsappMessaging
+  testWhatsappMessaging,
+  addWorkflow
 };

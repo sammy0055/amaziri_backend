@@ -9,6 +9,8 @@ import {
   KnowledgeVault,
   WhatSappAccount,
   XAccount,
+  WorkflowAtion,
+  Workflow,
 } from "./common";
 
 export interface IProfile extends Document, Profile {}
@@ -19,3 +21,5 @@ export interface IDocuments extends Document, DocumentType {}
 export interface IAssistant extends Document, Assistant {}
 export interface IXAccount extends Document, XAccount {}
 export interface IWhatSappAccount extends Document, WhatSappAccount {}
+export interface IWorkflowAtion extends Document, WorkflowAtion {}
+export interface IWorkflow extends Document, Workflow {}

@@ -46,6 +46,11 @@ export const typeDefs = `#graphql
 scalar FileName
 scalar AssistantType
 scalar UNIQUEID
+scalar WorkflowActionName
+scalar JSONScalar
+
+directive @actionParameters on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
 enum StatusResponse {
   SUCCESSFUL
 }
@@ -103,6 +108,35 @@ type WhatSappAccountPhoneNumber {
   isRegistered: Boolean
   isVerified: String
 }
+
+type WorkflowAction {
+  actionName: WorkflowActionName!
+  stepOrder: Int
+  category: String
+  actionType: String
+  actionParameters: JSONScalar @actionParameters
+}
+
+
+
+type Workflow {
+  workflowName: String
+  steps: [WorkflowAction]
+}
+
+input WorkflowActionInput {
+  actionName: WorkflowActionName!
+  stepOrder: Int
+  category: String
+  actionType: String
+  actionParameters: JSONScalar @actionParameters
+}
+
+input WorkflowInput {
+  workflowName: String
+  steps: [WorkflowActionInput]
+}
+
 
 type SignUpResponse {
   data: SignUp
@@ -260,6 +294,7 @@ type Mutation {
   registerWhatSappPhoneNumber(whatsappData: WhatSappAccountUpdataInput!): WhatSappAccountResponse!
   "testWhatsappMessaging is to be deleted"
   testWhatsappMessaging(whatsappData: TestWhatsappMessagingInput!): StatusResponse
+  addWorkflow(workflowInput: WorkflowInput): StatusResponse
 }
 
 `;

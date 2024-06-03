@@ -1,4 +1,10 @@
-import { AssistantType, UniqueID, documentFileNameScalar } from "../scalars";
+import {
+  AssistantType,
+  JSONScalar,
+  UniqueID,
+  WorkflowActionNames,
+  documentFileNameScalar,
+} from "../scalars";
 import { mutations } from "./mutation";
 import { queries } from "./query";
 import { getKnowledgeVaultDocuments } from "./query/knowledge_vault/get-knowledgevault";
@@ -6,7 +12,9 @@ import { getKnowledgeVaultDocuments } from "./query/knowledge_vault/get-knowledg
 export const resolvers = {
   FileName: documentFileNameScalar(),
   AssistantType: AssistantType(),
-  UNIQUEID:UniqueID(),
+  WorkflowActionName: WorkflowActionNames(),
+  JSONScalar,
+  UNIQUEID: UniqueID(),
   Query: queries,
   Mutation: mutations,
   KnowledgeVault: {

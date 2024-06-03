@@ -102,3 +102,19 @@ export interface SessionCache {
   profileId: ObjectId;
   organizationProfileId: ObjectId;
 }
+
+export interface WorkflowAtion {
+  actionName: string;
+  stepOrder: number;
+  category: string;
+  actionType: string;
+  actionParameters: any;
+}
+
+export interface Workflow {
+  organization: ObjectId;
+  workflowName: string;
+  createdAt: Date;
+  updatedAt: Date;
+  steps: WorkflowAtion[];
+}

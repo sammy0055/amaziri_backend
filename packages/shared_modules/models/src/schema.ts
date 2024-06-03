@@ -6,6 +6,8 @@ import {
   IProfile,
   ISessionCache,
   IWhatSappAccount,
+  IWorkflowAtion,
+  IWorkflow,
   IXAccount,
 } from "./type";
 const ObjectId = Schema.Types.ObjectId;
@@ -21,6 +23,7 @@ const Organization = new Schema({
   description: { type: String },
   knowledgeVaults: { type: [ObjectId], ref: "KnowledgeVault" },
   xaccount: { type: ObjectId, ref: "XAccount" },
+  workflows: { type: [ObjectId], ref: "Workflow" },
 });
 
 const KnowledgeVault = new Schema<IKnowledgeVault>({
@@ -72,10 +75,29 @@ const WhatSappAccount = new Schema<IWhatSappAccount>(
     accessToken: { type: String, required: true },
     whatsappId: { type: String, default: "" },
     isValid: { type: Boolean, default: true },
-    isSubscribedToWebhook:{type:Boolean, default:false},
+    isSubscribedToWebhook: { type: Boolean, default: false },
     tokenType: { type: String },
     mfaPin: { type: String },
     phoneNumber: { type: WhatSappAccountPhoneNumber },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const WorkflowAction = new Schema<IWorkflowAtion>({
+  actionName: { type: String, unique: true, required: true },
+  stepOrder: { type: Number, required: true },
+  category: { type: String, required: true },
+  actionType: { type: String, required: true },
+  actionParameters: { type: Schema.Types.Mixed, required: true },
+});
+
+const Workflow = new Schema<IWorkflow>(
+  {
+    organization: { type: ObjectId, ref: "Organization", required: true }, // index
+    workflowName: { type: String, required: true },
+    steps: { type: [WorkflowAction], required: true },
   },
   {
     timestamps: true,
@@ -112,6 +134,7 @@ const AssistantEntry =
 const XAccountEntry = models.XAccount || model("XAccount", XAccount);
 const WhatSappAccountEntry =
   models.WhatSappAccount || model("WhatSappAccount", WhatSappAccount);
+const WorkflowEntry = models.Workflow || model<IWorkflow>("Workflow", Workflow);
 export {
   SessionCacheEntry,
   ProfileEntry,
@@ -121,4 +144,5 @@ export {
   AssistantEntry,
   XAccountEntry,
   WhatSappAccountEntry,
+  WorkflowEntry,
 };

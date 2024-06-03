@@ -8,7 +8,6 @@ export interface User {
 
 // Workflow model
 export interface Workflow {
-  workflowId: string;
   organization: string;
   workflowName: string;
   createdAt: Date;
@@ -18,7 +17,6 @@ export interface Workflow {
 
 // Step model
 export interface Action<T extends ActionNamesUnion> {
-  actionId: string;
   actionName: T;
   stepOrder: number;
   category: string;
