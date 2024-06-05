@@ -86,7 +86,7 @@ const WhatSappAccount = new Schema<IWhatSappAccount>(
 );
 
 const WorkflowAction = new Schema<IWorkflowAtion>({
-  actionName: { type: String, unique: true, required: true },
+  actionName: { type: String, required: true },
   stepOrder: { type: Number, required: true },
   category: { type: String, required: true },
   actionType: { type: String, required: true },
