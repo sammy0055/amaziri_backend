@@ -23,5 +23,5 @@ export interface IXAccount extends Document, XAccount {}
 export interface IWhatSappAccount extends Document, WhatSappAccount {}
 export interface IWorkflowAtion
   extends Document,
-    Action<"SEND_WHATSAPP_MESSAGES"> {}
+    Action<any> {}
 export interface IWorkflow extends Document, Workflow {}

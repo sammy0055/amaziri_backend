@@ -2,7 +2,9 @@ import {
   AssistantType,
   JSONScalar,
   UniqueID,
+  WorkflowActionCategory,
   WorkflowActionNames,
+  WorkflowActionType,
   documentFileNameScalar,
 } from "../scalars";
 import { mutations } from "./mutation";
@@ -15,6 +17,8 @@ export const resolvers = {
   WorkflowActionName: WorkflowActionNames(),
   JSONScalar,
   UNIQUEID: UniqueID(),
+  WorkflowActionCategory: WorkflowActionCategory(),
+  WorkflowActionType: WorkflowActionType(),
   Query: queries,
   Mutation: mutations,
   KnowledgeVault: {

@@ -2,7 +2,7 @@ import { GraphQLScalarType, Kind } from "graphql";
 import path from "node:path";
 import { assistanttypes, validExtensions } from "../../data/taxonomy";
 import { Types, isValidObjectId } from "mongoose";
-import { ActionNames } from "amaziri_workflow";
+import { ActionNames, ActionType, ActionCategory } from "amaziri_workflow";
 export const UniqueID = () => {
   return new GraphQLScalarType({
     name: "UNIQUEID",
@@ -75,28 +75,72 @@ export const AssistantType = () => {
 };
 
 export const WorkflowActionNames = () => {
-  type ActionNamesUnion = `${ActionNames}`;
+  const validate = (value: any) => {
+    const actionNames = Object.values(ActionNames);
+    if (!actionNames.includes(value)) {
+      throw Error(
+        "ActionName is not valid, should be one of the following, " +
+          actionNames.join(",")
+      );
+    }
+  };
   return new GraphQLScalarType({
     name: "WorkflowActionName",
     description: "union of actionNames allowed",
     serialize(value: any) {
-      const actionNames = Object.values(ActionNames);
-      if (!actionNames.includes(value)) {
-        throw Error(
-          "ActionName is not valid, should be one of the following, " +
-            actionNames.join(",")
-        );
-      }
+      validate(value);
       return value;
     },
     parseValue(value: any) {
-      const actionNames = Object.values(ActionNames);
-      if (!actionNames.includes(value)) {
-        throw Error(
-          "ActionName is not valid, should be one of the following, " +
-            actionNames.join(",")
-        );
-      }
+      validate(value);
+      return value;
+    },
+  });
+};
+
+export const WorkflowActionCategory = () => {
+  const validate = (value: any) => {
+    const actioCategory = Object.values(ActionCategory);
+    if (!actioCategory.includes(value)) {
+      throw Error(
+        "ActioCategory is not valid, should be one of the following, " +
+          actioCategory.join(",")
+      );
+    }
+  };
+  return new GraphQLScalarType({
+    name: "WorkflowActionCategory",
+    description: "union of ActioCategory allowed",
+    serialize(value: any) {
+      validate(value);
+      return value;
+    },
+    parseValue(value: any) {
+      validate(value);
+      return value;
+    },
+  });
+};
+
+export const WorkflowActionType = () => {
+  const validate = (value: any) => {
+    const actionType = Object.values(ActionType);
+    if (!actionType.includes(value)) {
+      throw Error(
+        "actionType is not valid, should be one of the following, " +
+          actionType.join(",")
+      );
+    }
+  };
+  return new GraphQLScalarType({
+    name: "WorkflowActionType",
+    description: "union of WorkflowActionType allowed",
+    serialize(value: any) {
+      validate(value);
+      return value;
+    },
+    parseValue(value: any) {
+      validate(value);
       return value;
     },
   });

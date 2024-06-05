@@ -1,3 +1,6 @@
 delete document and vault(future plan)
 - inprove on delete feature, to make data consistent,
 - ensure rollback if delete failes for some document
+
+workflow
+ - ensure to convert to object id for assistant in workflowInputdata

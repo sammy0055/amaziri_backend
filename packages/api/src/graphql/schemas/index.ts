@@ -47,6 +47,8 @@ scalar FileName
 scalar AssistantType
 scalar UNIQUEID
 scalar WorkflowActionName
+scalar WorkflowActionCategory
+scalar WorkflowActionType
 scalar JSONScalar
 
 enum StatusResponse {
@@ -125,8 +127,8 @@ type Workflow {
 input WorkflowActionInput {
   actionName: WorkflowActionName!
   stepOrder: Int
-  category: String
-  actionType: String
+  category: WorkflowActionCategory!
+  actionType: WorkflowActionType!
   actionParameters: JSONScalar 
 }
 

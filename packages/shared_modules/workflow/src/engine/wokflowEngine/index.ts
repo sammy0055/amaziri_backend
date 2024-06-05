@@ -1,6 +1,8 @@
 import { ActionNames, Workflow, WorkflowActionMethods } from "../../types";
-import { SendWhatSappMessage } from "../../actions";
-
+import {
+  GenerateTextWithkowledgeBaseAssistant,
+  SendWhatSappMessage,
+} from "../../actions";
 
 type ActionRegistry = {
   [key in ActionNames]: WorkflowActionMethods;
@@ -9,6 +11,8 @@ type ActionRegistry = {
 const WorkflowEngine = () => {
   const actionRegistry = {
     [ActionNames.SEND_MESSAGES]: SendWhatSappMessage,
+    [ActionNames.GENERATE_TEXT_WITH_KNOWLEDGEBASE_ASSISTANT]:
+      GenerateTextWithkowledgeBaseAssistant,
   };
 
   const executeWorkflow = async (workflow: Workflow): Promise<void> => {
@@ -23,7 +27,7 @@ const WorkflowEngine = () => {
         throw new Error(`Action type ${step.actionName} not supported.`);
       }
 
-      const action = ActionClass(step.actionParameters);
+      const action = ActionClass(step.actionParameters as any);
       if (!action.validateParameters()) {
         throw new Error(
           `Invalid parameters for action type ${step.actionType}.`

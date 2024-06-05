@@ -20,4 +20,21 @@ const SendWhatSappMessage = (
   };
 };
 
-export { SendWhatSappMessage };
+const GenerateTextWithkowledgeBaseAssistant = (
+  params: ActionParametersType["GENERATE_TEXT_WITH_KNOWLEDGEBASE_ASSISTANT"]
+) => {
+  const validateParameters = (): boolean => {
+    return true;
+  };
+
+  const execute = async (data: any): Promise<any> => {
+    return params;
+  };
+
+  return {
+    validateParameters,
+    execute,
+  };
+};
+
+export { SendWhatSappMessage, GenerateTextWithkowledgeBaseAssistant };

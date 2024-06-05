@@ -19,7 +19,6 @@ export const addWorkflow = async (
     await validateWorkflowInput(workflowInput);
     const { addWorkflow } = new ManageWorkflow(email);
     const data = await addWorkflow(workflowInput);
-    console.log("resolve args", workflowInput, data);
 
     return RESPONSE_STATUS.SUCCESSFUL;
   } catch (error: any) {
