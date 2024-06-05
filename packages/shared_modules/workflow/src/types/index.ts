@@ -1,3 +1,4 @@
+
 // User model
 export interface User {
   userId: string;
@@ -8,7 +9,7 @@ export interface User {
 
 // Workflow model
 export interface Workflow {
-  organization: string;
+  organization: any;
   workflowName: string;
   createdAt: Date;
   updatedAt: Date;
@@ -19,17 +20,23 @@ export interface Workflow {
 export interface Action<T extends ActionNamesUnion> {
   actionName: T;
   stepOrder: number;
-  category: string;
+  category: ActioCategoryUnion;
   actionType: ActionTypeUnion;
   actionParameters: ActionParametersType[ActionNamesUnion]; // Use appropriate types or interfaces for action parameters
 }
 
 type ActionTypeUnion = `${ActionType}`;
 type ActionNamesUnion = `${ActionNames}`;
+type ActioCategoryUnion = `${ActioCategory}`
 
 export enum ActionType {
   Trigger = "trigger",
   WHATSAPP_MANAGER = "WHATSAPP_MANAGER",
+}
+
+export enum ActioCategory {
+  GENERAL = "GENERAL",
+  INTEGRATIONS = "INTEGRATIONS",
 }
 
 export enum ActionNames {
@@ -48,8 +55,8 @@ export type ActionParametersType = {
 };
 
 export type WorkflowActionMethods = {
-  SendWhatSappMessage: (parameters:any) => WorkflowActionType
-}
+  SendWhatSappMessage: (parameters: any) => WorkflowActionType;
+};
 
 interface WorkflowActionType {
   validateParameters: () => boolean;

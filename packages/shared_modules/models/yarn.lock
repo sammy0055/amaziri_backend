@@ -28,6 +28,9 @@
   dependencies:
     "@types/webidl-conversions" "*"
 
+"amaziri_workflow@file:../workflow":
+  version "1.0.0"
+
 bson@^6.7.0:
   version "6.7.0"
   resolved "https://registry.npmjs.org/bson/-/bson-6.7.0.tgz"

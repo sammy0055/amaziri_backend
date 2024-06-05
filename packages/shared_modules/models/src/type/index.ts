@@ -9,9 +9,9 @@ import {
   KnowledgeVault,
   WhatSappAccount,
   XAccount,
-  WorkflowAtion,
-  Workflow,
 } from "./common";
+
+import { Workflow, Action } from "amaziri_workflow";
 
 export interface IProfile extends Document, Profile {}
 export interface ISessionCache extends Document, SessionCache {}
@@ -21,5 +21,7 @@ export interface IDocuments extends Document, DocumentType {}
 export interface IAssistant extends Document, Assistant {}
 export interface IXAccount extends Document, XAccount {}
 export interface IWhatSappAccount extends Document, WhatSappAccount {}
-export interface IWorkflowAtion extends Document, WorkflowAtion {}
+export interface IWorkflowAtion
+  extends Document,
+    Action<"SEND_WHATSAPP_MESSAGES"> {}
 export interface IWorkflow extends Document, Workflow {}

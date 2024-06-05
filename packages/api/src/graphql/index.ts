@@ -1,16 +1,17 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { makeExecutableSchema } from "@graphql-tools/schema";
+// import { makeExecutableSchema } from "@graphql-tools/schema";
 import { typeDefs } from "./schemas";
 import { resolvers } from "./resolvers";
-import { ValidateActionParametersDirective } from "./directives/workflow";
+// import { ValidateActionParametersDirective } from "./directives/workflow";
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
-const schemaWithDirectives =
-  ValidateActionParametersDirective("actionParameters")(schema);
+// const schema = makeExecutableSchema({ typeDefs, resolvers });
+// const schemaWithDirectives =
+//   ValidateActionParametersDirective("actionParameters")(schema);
 
 const server = new ApolloServer({
-  schema: schemaWithDirectives,
+  typeDefs,
+  resolvers,
 });
 
 const startApolloServer = async () => {

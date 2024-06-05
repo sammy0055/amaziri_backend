@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^8.3.4"
+    "mongoose": "^8.3.4",
+    "amaziri_workflow": "file:../workflow"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",

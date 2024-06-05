@@ -49,8 +49,6 @@ scalar UNIQUEID
 scalar WorkflowActionName
 scalar JSONScalar
 
-directive @actionParameters on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
-
 enum StatusResponse {
   SUCCESSFUL
 }
@@ -114,7 +112,7 @@ type WorkflowAction {
   stepOrder: Int
   category: String
   actionType: String
-  actionParameters: JSONScalar @actionParameters
+  actionParameters: JSONScalar 
 }
 
 
@@ -129,7 +127,7 @@ input WorkflowActionInput {
   stepOrder: Int
   category: String
   actionType: String
-  actionParameters: JSONScalar @actionParameters
+  actionParameters: JSONScalar 
 }
 
 input WorkflowInput {

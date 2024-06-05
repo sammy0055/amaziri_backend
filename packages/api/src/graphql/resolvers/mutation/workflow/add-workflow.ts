@@ -1,5 +1,7 @@
 import { errorHandler } from "../../../../helpers/error-handler";
+import { ManageWorkflow } from "../../../../helpers/manage-workflow";
 import { verifyUserIdToken } from "../../../../middleware/verifyIdToken";
+import { validateWorkflowInput } from "../../../../middleware/workflow-validation";
 import { RESPONSE_STATUS } from "../../../../types/common/organization";
 import { AuthUserData } from "../../../../types/common/users";
 
@@ -13,8 +15,11 @@ export const addWorkflow = async (
   { ContextFunctionArgument }: AuthUserData
 ) => {
   try {
-    // const { email } = await verifyUserIdToken(ContextFunctionArgument.req);
-    // console.log("resolve args", workflowInput);
+    const { email } = await verifyUserIdToken(ContextFunctionArgument.req);
+    await validateWorkflowInput(workflowInput);
+    const { addWorkflow } = new ManageWorkflow(email);
+    const data = await addWorkflow(workflowInput);
+    console.log("resolve args", workflowInput, data);
 
     return RESPONSE_STATUS.SUCCESSFUL;
   } catch (error: any) {
