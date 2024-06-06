@@ -1,6 +1,7 @@
-import { WorkflowEntry } from "amazir_data_model";
+import { OrganizationProfileEntry, WorkflowEntry } from "amazir_data_model";
 import { Workflow } from "amaziri_workflow";
 import { SessionCache } from "./manage-session-cache";
+import { ObjectId } from "../types/common/organization";
 
 export class ManageWorkflow {
   protected email: string;
@@ -15,6 +16,26 @@ export class ManageWorkflow {
       ...workflow,
       organization: organizationProfileId,
     });
+
+    await OrganizationProfileEntry.findByIdAndUpdate(data.organization, {
+      $push: { workflows: data._id },
+    });
+    return data;
+  };
+
+  updateWorkflow = async (workflow: Workflow & { _id: ObjectId }) => {
+    const data = WorkflowEntry.findByIdAndUpdate(workflow._id, {
+      $set: { ...workflow },
+    });
+    return data;
+  };
+
+  deleteWorkflow = async (_id: ObjectId) => {
+    const data = await WorkflowEntry.findByIdAndDelete(_id).exec();
+    if (!data) throw new Error("wordflow not longer exist");
+    await OrganizationProfileEntry.findByIdAndUpdate(data.organization, {
+      $pull: { workflows: _id },
+    }).exec();
     return data;
   };
 }

@@ -42,6 +42,14 @@ expiresIn: Int!
 accessToken: String!
 refreshToken: String!
 `;
+
+const WorkflowAction = `
+actionName: WorkflowActionName!
+stepOrder: Int
+category: WorkflowActionCategory!
+actionType: WorkflowActionType!
+actionParameters: JSONScalar 
+`
 export const typeDefs = `#graphql
 scalar FileName
 scalar AssistantType
@@ -110,11 +118,7 @@ type WhatSappAccountPhoneNumber {
 }
 
 type WorkflowAction {
-  actionName: WorkflowActionName!
-  stepOrder: Int
-  category: String
-  actionType: String
-  actionParameters: JSONScalar 
+  ${WorkflowAction}
 }
 
 
@@ -123,20 +127,6 @@ type Workflow {
   workflowName: String
   steps: [WorkflowAction]
 }
-
-input WorkflowActionInput {
-  actionName: WorkflowActionName!
-  stepOrder: Int
-  category: WorkflowActionCategory!
-  actionType: WorkflowActionType!
-  actionParameters: JSONScalar 
-}
-
-input WorkflowInput {
-  workflowName: String
-  steps: [WorkflowActionInput]
-}
-
 
 type SignUpResponse {
   data: SignUp
@@ -257,6 +247,21 @@ input TestWhatsappMessagingInput {
   _id: UNIQUEID!
 }
 
+input WorkflowActionInput {
+  ${WorkflowAction} 
+}
+
+input WorkflowInput {
+  workflowName: String
+  steps: [WorkflowActionInput]
+}
+
+input WorkflowUpdateInput {
+  _id: UNIQUEID!
+  workflowName: String
+  steps: [WorkflowActionInput]
+}
+
 type OrganizationQuery {
   selectOrganization(organizationId:UNIQUEID!):OrganizationProfileResponse
 }
@@ -294,7 +299,9 @@ type Mutation {
   registerWhatSappPhoneNumber(whatsappData: WhatSappAccountUpdataInput!): WhatSappAccountResponse!
   "testWhatsappMessaging is to be deleted"
   testWhatsappMessaging(whatsappData: TestWhatsappMessagingInput!): StatusResponse
-  addWorkflow(workflowInput: WorkflowInput): StatusResponse
+  addWorkflow(workflowInput: WorkflowInput!): StatusResponse
+  updateWorkflow(workflowInput: WorkflowUpdateInput!): StatusResponse
+  removeWorkflow(workflowId: UNIQUEID!): StatusResponse
 }
 
 `;

@@ -14,6 +14,8 @@ import { addXAccount } from "./integrations/add-x-account";
 import { addwhatSappAccount } from "./integrations/add-whatsapp";
 import { registerWhatSappPhoneNumber, testWhatsappMessaging, updateWhatSappAccount } from "./integrations/update-whatsapp";
 import { addWorkflow } from "./workflow/add-workflow";
+import { updateWorkflow } from "./workflow/update-workflow";
+import { removeWorkflow } from "./workflow/delete-workflow";
 
 export const mutations = {
   signUp: createUser,
@@ -33,5 +35,7 @@ export const mutations = {
   updateWhatSappAccount,
   registerWhatSappPhoneNumber,
   testWhatsappMessaging,
-  addWorkflow
+  addWorkflow,
+  updateWorkflow,
+  removeWorkflow
 };

@@ -1,6 +1,6 @@
 import { AssistantEntry } from "amazir_data_model";
 import { Workflow, Action, ActionNames } from "amaziri_workflow";
-import { isValidObjectId } from "mongoose";
+import { Types, isValidObjectId } from "mongoose";
 
 let sendWhatsappMessagesDataCache: any = null;
 
@@ -31,6 +31,7 @@ const validators: { [key in ActionNames]: any } = {
   SEND_WHATSAPP_MESSAGES: async (action: Action<ActionNames.SEND_MESSAGES>) => {
     const sendWhatSappMessagesData = await getSendWhatsappMessagesData();
     validateParametersKeys(sendWhatSappMessagesData, action);
+    return action;
   },
   GENERATE_TEXT_WITH_KNOWLEDGEBASE_ASSISTANT: async (
     action: Action<ActionNames.GENERATE_TEXT_WITH_KNOWLEDGEBASE_ASSISTANT>
@@ -45,7 +46,9 @@ const validators: { [key in ActionNames]: any } = {
     if (!isValidObjectId(assistantId)) throw new Error("invalid assistantId");
     const isAssistant = await AssistantEntry.findById(assistantId).exec();
     if (!isAssistant) throw new Error("assistantId does not exist");
-
+    action.actionParameters.assistantId = new Types.ObjectId(
+      assistantId
+    ) as any;
     return action;
   },
 };
@@ -68,10 +71,11 @@ export const validateWorkflowInput = async (workflowInput: Workflow) => {
 
     const validator = validators[step.actionName];
     if (validator) {
-      await validator(step);
+      return await validator(step);
     }
   });
-
+  const res = await Promise.all(validationPromises);
   // Run all validations concurrently
-  await Promise.all(validationPromises);
+  workflowInput.steps = res as any;
+  return workflowInput;
 };
