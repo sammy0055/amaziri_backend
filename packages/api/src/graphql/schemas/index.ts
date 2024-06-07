@@ -61,6 +61,7 @@ scalar JSONScalar
 
 enum StatusResponse {
   SUCCESSFUL
+  WORKFLOW_STARTED_SUCCESSFULLY
 }
 type SignUp {
   ${AuthCredentials}
@@ -302,6 +303,7 @@ type Mutation {
   addWorkflow(workflowInput: WorkflowInput!): StatusResponse
   updateWorkflow(workflowInput: WorkflowUpdateInput!): StatusResponse
   removeWorkflow(workflowId: UNIQUEID!): StatusResponse
+  runWorkflow(workflowId: UNIQUEID!): StatusResponse
 }
 
 `;

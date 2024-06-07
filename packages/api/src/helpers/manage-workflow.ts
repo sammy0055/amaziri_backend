@@ -1,5 +1,5 @@
 import { OrganizationProfileEntry, WorkflowEntry } from "amazir_data_model";
-import { Workflow } from "amaziri_workflow";
+import { Workflow, WorkflowEngine } from "amaziri_workflow";
 import { SessionCache } from "./manage-session-cache";
 import { ObjectId } from "../types/common/organization";
 
@@ -37,5 +37,14 @@ export class ManageWorkflow {
       $pull: { workflows: _id },
     }).exec();
     return data;
+  };
+
+  executeWorkflowAndNotifyUser = async (
+    engine: WorkflowEngine,
+    _id: ObjectId
+  ) => {
+    const workflow = await WorkflowEntry.findById(_id).exec();
+    if (!workflow) throw new Error("workflow does not exist");
+    return;
   };
 }

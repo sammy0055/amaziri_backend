@@ -16,6 +16,7 @@ import { registerWhatSappPhoneNumber, testWhatsappMessaging, updateWhatSappAccou
 import { addWorkflow } from "./workflow/add-workflow";
 import { updateWorkflow } from "./workflow/update-workflow";
 import { removeWorkflow } from "./workflow/delete-workflow";
+import { runWorkflow } from "./workflow/run-workflow";
 
 export const mutations = {
   signUp: createUser,
@@ -37,5 +38,6 @@ export const mutations = {
   testWhatsappMessaging,
   addWorkflow,
   updateWorkflow,
-  removeWorkflow
+  removeWorkflow,
+  runWorkflow
 };

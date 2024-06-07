@@ -44,6 +44,7 @@ export interface FileMetaData {
 
 export enum RESPONSE_STATUS {
   SUCCESSFUL = "SUCCESSFUL",
+  WORKFLOW_STARTED = "WORKFLOW_STARTED_SUCCESSFULLY"
 }
 
 export interface Assistant {

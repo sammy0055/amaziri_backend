@@ -1,28 +1,29 @@
-import { ActionNames, Workflow, WorkflowActionMethods } from "../../types";
+import EventEmitter from "events";
+import { ActionNames, Workflow } from "../../types";
 import {
   GenerateTextWithkowledgeBaseAssistant,
   SendWhatSappMessage,
 } from "../../actions";
 
 type ActionRegistry = {
-  [key in ActionNames]: WorkflowActionMethods;
+  [key in ActionNames]: any;
 };
 
-const WorkflowEngine = () => {
-  const actionRegistry = {
+class WorkflowEngine extends EventEmitter {
+  protected actionRegistry: ActionRegistry = {
     [ActionNames.SEND_MESSAGES]: SendWhatSappMessage,
     [ActionNames.GENERATE_TEXT_WITH_KNOWLEDGEBASE_ASSISTANT]:
       GenerateTextWithkowledgeBaseAssistant,
   };
 
-  const executeWorkflow = async (workflow: Workflow): Promise<void> => {
+  executeWorkflow = async (workflow: Workflow): Promise<void> => {
     let stepData: any = null;
     const sortedSteps = workflow.steps.sort(
       (a, b) => a.stepOrder - b.stepOrder
     );
 
     for (const step of sortedSteps) {
-      const ActionClass = actionRegistry[step.actionName];
+      const ActionClass = this.actionRegistry[step.actionName];
       if (!ActionClass) {
         throw new Error(`Action type ${step.actionName} not supported.`);
       }
@@ -36,13 +37,15 @@ const WorkflowEngine = () => {
 
       // Execute the action and pass the result to the next step
       stepData = await action.execute(stepData); // Pass data between steps if needed
-      console.log(`Step ${step.stepOrder} result:`, stepData);
+
+      // Emit an event with the step result
+      this.emit("stepResult", {
+        stepOrder: step.stepOrder,
+        result: stepData,
+        actionName: step.actionName,
+      });
     }
   };
-
-  return {
-    executeWorkflow,
-  };
-};
+}
 
 export { WorkflowEngine };
