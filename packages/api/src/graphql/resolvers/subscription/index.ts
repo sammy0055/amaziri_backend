@@ -1,5 +1,11 @@
-import { pubsub } from "./test-sub";
+import { pubsub } from "../..";
+import { ObjectId } from "../../../types/common/organization";
 import { withFilter } from "graphql-subscriptions";
+import { isSubscriptionValid } from "../../../utils/equality-check";
+
+interface UserInput {
+  workflowId: ObjectId;
+}
 
 export const subscriptions = {
   postCreated: {
@@ -8,11 +14,10 @@ export const subscriptions = {
         console.log("Subscribed to POST_CREATED");
         return pubsub.asyncIterator(["POST_CREATED"]);
       },
-      (payload, variables) => {
-        console.log("====================================");
-        console.log(payload);
-        console.log("====================================");
-        return true;
+      (payload, variables: UserInput) => {
+        const idOne = payload.postCreated.metaData.workflowId;
+        const idTwo = variables.workflowId;
+        return isSubscriptionValid(idOne, idTwo);
       }
     ),
   },

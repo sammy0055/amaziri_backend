@@ -1,10 +1,11 @@
 import { errorHandler } from "../helpers/error-handler";
 import { FirebaseAuth } from "../services/firebase/auth";
 import { type IncomingMessage } from "http";
-export const verifyUserIdToken = async (req: IncomingMessage) => {
+export const verifyUserIdToken = async (req: IncomingMessage | string) => {
   try {
     const { verifyIdToken } = new FirebaseAuth();
-    const token = req.headers.authorization || "";
+    const token =
+      typeof req !== "string" ? req.headers.authorization || "" : req;
     if (!token)
       throw {
         code: "unathorized",

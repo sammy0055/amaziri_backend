@@ -96,3 +96,21 @@ export interface SessionCache {
   profileId: ObjectId;
   organizationProfileId: ObjectId;
 }
+
+export enum ScheduleRecurrenceType {
+  DAILY = "DAILY",
+  WEEKLY = "WEEKLY",
+  YEARLY = "YEARLY",
+}
+
+export interface ScheduleRecurrence {
+  type: `${ScheduleRecurrenceType}`;
+  interval: number;
+  endDate?: Date;
+}
+export interface WorkflowSchedule {
+  organization: ObjectId;
+  workflow: ObjectId;
+  scheduledTime: Date;
+  recurrence?: ScheduleRecurrence;
+}

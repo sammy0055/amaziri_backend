@@ -9,6 +9,7 @@ import {
   KnowledgeVault,
   WhatSappAccount,
   XAccount,
+  WorkflowSchedule,
 } from "./common";
 
 import { Workflow, Action } from "amaziri_workflow";
@@ -25,3 +26,4 @@ export interface IWorkflowAtion
   extends Document,
     Action<any> {}
 export interface IWorkflow extends Document, Workflow {}
+export interface IWorkflowSchedule extends Document, WorkflowSchedule {}

@@ -1493,6 +1493,11 @@
     "@langchain/core" "~0.1"
     js-tiktoken "^1.0.11"
 
+"@mawhea/mongopubsub@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@mawhea/mongopubsub/-/mongopubsub-1.0.0.tgz#543df8b8e583cb9ede36c9e8e121ab0cc8635c2b"
+  integrity sha512-jCj41ym1uKIC4EIJcYhICF1nBccTMjGGWNJUomUHljRJR7fbd9PwjcVqGZ/0InU77nzleuL9zSBod8vlp52IJg==
+
 "@mongodb-js/saslprep@^1.1.5":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@mongodb-js/saslprep/-/saslprep-1.1.7.tgz#d1700facfd6916c50c2c88fd6d48d363a56c702f"
@@ -2280,7 +2285,7 @@ agentkeepalive@^4.2.1:
 "amazir_data_model@file:../shared_modules/models":
   version "1.0.0"
   dependencies:
-    amaziri_workflow "file:../../../../../AppData/Local/Yarn/Cache/v6/npm-amazir-data-model-1.0.0-788fab82-3e1f-49a2-8421-1a5b4700299f-1717750368120/node_modules/workflow"
+    amaziri_workflow "file:../../../../../AppData/Local/Yarn/Cache/v6/npm-amazir-data-model-1.0.0-89c9fbb2-b762-4e6c-8174-aa82fd4662ac-1717850485519/node_modules/workflow"
     mongoose "^8.3.4"
 
 "amaziri_workflow@file:../shared_modules/workflow":
@@ -3136,6 +3141,14 @@ graceful-fs@^4.1.9:
   version "4.2.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
+
+graphql-mongodb-subscriptions@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/graphql-mongodb-subscriptions/-/graphql-mongodb-subscriptions-1.0.1.tgz#a38ab02d6c9df41a621aa7d5b0eb03702390c55a"
+  integrity sha512-vJ2zFP7wIsZ8RQ+eDMjtR6V+WfSiSl1q9JgfJlOjXuyRxlVJc+NDX94Ish9ZPwdOYQJdjWVHnFJx9NYyb1sUHQ==
+  dependencies:
+    "@mawhea/mongopubsub" "1.0.0"
+    debug "^4.3.4"
 
 graphql-subscriptions@^2.0.0:
   version "2.0.0"

@@ -1,7 +1,12 @@
-import { OrganizationProfileEntry, WorkflowEntry } from "amazir_data_model";
+import {
+  OrganizationProfileEntry,
+  WorkflowEntry,
+  WorkflowScheduleEntry,
+} from "amazir_data_model";
 import { Workflow, WorkflowEngine } from "amaziri_workflow";
 import { SessionCache } from "./manage-session-cache";
 import { ObjectId } from "../types/common/organization";
+import { pubsub } from "../graphql";
 
 export class ManageWorkflow {
   protected email: string;
@@ -41,12 +46,18 @@ export class ManageWorkflow {
 
   executeWorkflowAndNotifyUser = async (
     engine: WorkflowEngine,
-    workflow: Workflow
+    workflow: Workflow & { _id: ObjectId }
   ) => {
     engine.on("stepResult", (result) => {
-      console.log("====================================");
-      console.log("result", result);
-      console.log("====================================");
+      pubsub.publish("POST_CREATED", {
+        postCreated: {
+          author: "Ali Baba",
+          comment: "Open sesame",
+          metaData: {
+            workflowId: workflow?._id,
+          },
+        },
+      });
     });
     await engine.executeWorkflow(workflow);
   };
@@ -55,7 +66,16 @@ export class ManageWorkflow {
     const workflow = await WorkflowEntry.findById(_id).exec();
     if (!workflow) throw new Error("workflow does not exist");
     this.executeWorkflowAndNotifyUser(engine, workflow);
-    
-    return;
+
+    return workflow as Workflow;
+  };
+
+  addWorkflowSchedule = async (data: any) => {
+    const { getSessionCache } = new SessionCache(this.email);
+    const { organizationProfileId } = await getSessionCache();
+    await WorkflowScheduleEntry.create({
+      ...data,
+      organization: organizationProfileId,
+    });
   };
 }

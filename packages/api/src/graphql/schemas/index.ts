@@ -49,8 +49,9 @@ stepOrder: Int
 category: WorkflowActionCategory!
 actionType: WorkflowActionType!
 actionParameters: JSONScalar 
-`
+`;
 export const typeDefs = `#graphql
+scalar Date
 scalar FileName
 scalar AssistantType
 scalar UNIQUEID
@@ -62,6 +63,12 @@ scalar JSONScalar
 enum StatusResponse {
   SUCCESSFUL
   WORKFLOW_STARTED_SUCCESSFULLY
+}
+
+enum ScheduleRecurrenceType {
+  DAILY
+  WEEKLY
+  YEARLY
 }
 type SignUp {
   ${AuthCredentials}
@@ -268,6 +275,18 @@ input WorkflowUpdateInput {
   steps: [WorkflowActionInput]
 }
 
+input WorkflowScheduleRecurrenceInput {
+  type: ScheduleRecurrenceType!
+  interval: Int!
+  endDate: Date
+}
+
+input WorkflowScheduleInput {
+  workflow: UNIQUEID!
+  scheduledTime: Date!
+  recurrence: WorkflowScheduleRecurrenceInput
+}
+
 type OrganizationQuery {
   selectOrganization(organizationId:UNIQUEID!):OrganizationProfileResponse
 }
@@ -309,11 +328,12 @@ type Mutation {
   updateWorkflow(workflowInput: WorkflowUpdateInput!): StatusResponse
   removeWorkflow(workflowId: UNIQUEID!): StatusResponse
   runWorkflow(workflowId: UNIQUEID!): StatusResponse
+  addWorkflowSchedule(workflowScheduleData: WorkflowScheduleInput!): StatusResponse!
 }
 
 
 type Subscription {
-  postCreated: PostCreatedResponse
+  postCreated(workflowId: UNIQUEID!): PostCreatedResponse
   }
 
 `;

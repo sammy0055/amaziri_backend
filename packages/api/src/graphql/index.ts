@@ -9,10 +9,19 @@ import http from "http";
 import express from "express";
 import { typeDefs } from "./schemas";
 import { resolvers } from "./resolvers";
+import { PubSub } from "graphql-subscriptions";
+import { verifyUserIdToken } from "../middleware/verifyIdToken";
 
+// import { MongoClient } from "mongodb";
+// import { MongodbPubSub } from 'graphql-mongodb-subscriptions';
+// import { getEnv } from "../helpers/getEnv";
+
+// const client = new MongoClient(getEnv("MONGO_URI") || "");
+export const pubsub = new PubSub();
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 const app = express();
 const httpServer = http.createServer(app);
-const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 // Creating the WebSocket server
 const wsServer = new WebSocketServer({
@@ -24,9 +33,8 @@ const serverCleanup = useServer(
   {
     schema,
     onConnect: async (ctx) => {
-      // console.log("====================================");
-      // console.log(`connected to web-socket`, ctx);
-      // console.log("====================================");
+      const token = ctx.connectionParams?.Authorization || "";
+      await verifyUserIdToken(token as string);
     },
     onDisconnect: async (ctx) => {
       // console.log("====================================");

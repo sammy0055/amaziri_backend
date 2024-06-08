@@ -17,6 +17,7 @@ import { addWorkflow } from "./workflow/add-workflow";
 import { updateWorkflow } from "./workflow/update-workflow";
 import { removeWorkflow } from "./workflow/delete-workflow";
 import { runWorkflow } from "./workflow/run-workflow";
+import { addWorkflowSchedule } from "./workflow/add-shedule";
 
 export const mutations = {
   signUp: createUser,
@@ -39,5 +40,6 @@ export const mutations = {
   addWorkflow,
   updateWorkflow,
   removeWorkflow,
-  runWorkflow
+  runWorkflow,
+  addWorkflowSchedule
 };

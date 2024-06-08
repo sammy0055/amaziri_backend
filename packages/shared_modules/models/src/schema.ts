@@ -9,7 +9,9 @@ import {
   IWorkflowAtion,
   IWorkflow,
   IXAccount,
+  IWorkflowSchedule,
 } from "./type";
+import { ScheduleRecurrence } from "./type/common";
 const ObjectId = Schema.Types.ObjectId;
 const Profile = new Schema<IProfile>({
   email: { type: String, unique: true, required: true }, //index field
@@ -104,6 +106,19 @@ const Workflow = new Schema<IWorkflow>(
   }
 );
 
+const ScheduleRecurrenceType = new Schema<ScheduleRecurrence>({
+  type: { type: String, required: true },
+  interval: { type: Number, required: true },
+  endDate: { type: Date, required: false },
+});
+
+const WorkflowSchedule = new Schema<IWorkflowSchedule>({
+  organization: { type: ObjectId, ref: "Organization", required: true }, // index
+  workflow: { type: ObjectId, ref: "Workflow", required: true },
+  scheduledTime: { type: Date, required: true }, // index
+  recurrence: { type: ScheduleRecurrenceType },
+});
+
 const sessionCache = new Schema<ISessionCache>(
   {
     userEmail: { type: String, required: true }, //index field
@@ -135,6 +150,8 @@ const XAccountEntry = models.XAccount || model("XAccount", XAccount);
 const WhatSappAccountEntry =
   models.WhatSappAccount || model("WhatSappAccount", WhatSappAccount);
 const WorkflowEntry = models.Workflow || model<IWorkflow>("Workflow", Workflow);
+const WorkflowScheduleEntry =
+  models.WorkflowSchedule || model("WorkflowSchedule", WorkflowSchedule);
 export {
   SessionCacheEntry,
   ProfileEntry,
@@ -145,4 +162,5 @@ export {
   XAccountEntry,
   WhatSappAccountEntry,
   WorkflowEntry,
+  WorkflowScheduleEntry,
 };
