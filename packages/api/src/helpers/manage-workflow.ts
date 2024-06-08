@@ -41,10 +41,21 @@ export class ManageWorkflow {
 
   executeWorkflowAndNotifyUser = async (
     engine: WorkflowEngine,
-    _id: ObjectId
+    workflow: Workflow
   ) => {
+    engine.on("stepResult", (result) => {
+      console.log("====================================");
+      console.log("result", result);
+      console.log("====================================");
+    });
+    await engine.executeWorkflow(workflow);
+  };
+
+  executeWorkflow = async (engine: WorkflowEngine, _id: ObjectId) => {
     const workflow = await WorkflowEntry.findById(_id).exec();
     if (!workflow) throw new Error("workflow does not exist");
+    this.executeWorkflowAndNotifyUser(engine, workflow);
+    
     return;
   };
 }

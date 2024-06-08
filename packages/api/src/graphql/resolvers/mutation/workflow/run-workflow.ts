@@ -7,6 +7,7 @@ import { verifyUserIdToken } from "../../../../middleware/verifyIdToken";
 import { ManageWorkflow } from "../../../../helpers/manage-workflow";
 import { errorHandler } from "../../../../helpers/error-handler";
 import { WorkflowEngine } from "amaziri_workflow";
+import { postCreated } from "../../subscription/test-sub";
 
 interface UserInput {
   workflowId: ObjectId;
@@ -19,9 +20,10 @@ export const runWorkflow = async (
 ) => {
   try {
     const { email } = await verifyUserIdToken(ContextFunctionArgument.req);
-    const { executeWorkflowAndNotifyUser } = new ManageWorkflow(email);
+    const { executeWorkflow } = new ManageWorkflow(email);
     const engine = new WorkflowEngine();
-    await executeWorkflowAndNotifyUser(engine, workflowId);
+    // await executeWorkflow(engine, workflowId);
+    postCreated();
     return RESPONSE_STATUS.WORKFLOW_STARTED;
   } catch (error: any) {
     errorHandler(error);

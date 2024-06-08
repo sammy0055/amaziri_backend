@@ -188,6 +188,11 @@ type WhatSappAccountResponse {
   ${ResponseStatus}
 }
 
+type PostCreatedResponse {
+  author: String
+  comment: String
+}
+
 input ProfileInput {
   ${Profile}
 }
@@ -305,5 +310,10 @@ type Mutation {
   removeWorkflow(workflowId: UNIQUEID!): StatusResponse
   runWorkflow(workflowId: UNIQUEID!): StatusResponse
 }
+
+
+type Subscription {
+  postCreated: PostCreatedResponse
+  }
 
 `;
