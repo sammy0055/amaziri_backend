@@ -74,8 +74,13 @@ type SignUp {
   ${AuthCredentials}
 }
 
+type Login {
+  ${AuthCredentials}
+}
+
 type Profile {
   email: String
+  organizations: [String]
   ${Profile}
 }
 
@@ -142,7 +147,8 @@ type SignUpResponse {
 }
 
 type LoginResponse {
-  ${AuthCredentials}
+  data: Login
+  ${ResponseStatus}
 }
 
 type ProfileResponse {
@@ -292,6 +298,7 @@ type OrganizationQuery {
 }
 
 type Query {
+  getProfile: ProfileResponse!
   organization:OrganizationQuery
   getDocument(DocumentId: UNIQUEID!): DocumentResponse!
   getKnowledgeVault(VaultId: UNIQUEID!): KnowledgeVaultResponse!

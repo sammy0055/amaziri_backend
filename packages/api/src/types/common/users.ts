@@ -7,6 +7,7 @@ export interface Profile {
   email: string;
   firstName: string;
   lastName: string;
+  organization: ObjectId | ObjectId[]
 }
 
 export interface OrganizationProfile {

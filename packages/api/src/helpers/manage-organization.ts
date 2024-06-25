@@ -1,4 +1,7 @@
-import { OrganizationProfileEntry } from "../services/mongodb/schema";
+import {
+  OrganizationProfileEntry,
+  ProfileEntry,
+} from "../services/mongodb/schema";
 import { OrganizationProfile } from "../types/common/users";
 import { SessionCache } from "./manage-session-cache";
 
@@ -13,6 +16,10 @@ export class Organization {
     const organization = await OrganizationProfileEntry.create({
       ...organizationData,
       creator: this.profileId,
+    });
+
+    await ProfileEntry.findByIdAndUpdate(this.profileId, {
+      $push: { organizations: organization._id },
     });
 
     const { setOrganizationIdInCache } = new SessionCache(this.userEmail);

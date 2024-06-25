@@ -17,6 +17,7 @@ const Profile = new Schema<IProfile>({
   email: { type: String, unique: true, required: true }, //index field
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
+  organizations: { type: [ObjectId] },
 });
 
 const Organization = new Schema({

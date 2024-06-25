@@ -16,9 +16,14 @@ export const emailAndPasswordLogin = async (
     const loginDetails = await loginUser(email, password);
     const tokenData = await loginDetails.user.getIdTokenResult();
     return {
-      email: email,
-      IdToken: tokenData.token,
-      exp: parseInt(tokenData.claims.exp!),
+      code: 200,
+      success: true,
+      message: "logged in successfully",
+      data: {
+        email: email,
+        IdToken: tokenData.token,
+        exp: parseInt(tokenData.claims.exp!),
+      },
     };
   } catch (error: any) {
     errorHandler(error);
