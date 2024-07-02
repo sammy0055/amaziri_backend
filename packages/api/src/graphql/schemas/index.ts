@@ -228,6 +228,11 @@ input KnowledgeVaultInput {
   name: String!
 }
 
+input KnowledgeVaultUpdateInput {
+  _id: UNIQUEID!
+  name: String!
+}
+
 input DocumentQueryInput {
   _id: UNIQUEID!
   fileName: FileName!
@@ -317,6 +322,7 @@ type Mutation {
   updateProfile(profileInputData: ProfileInput!): ProfileResponse
   organization:OrganizationMutation
   createKnowledgeVault(knowledgeVaultInputData:KnowledgeVaultInput!): KnowledgeVaultResponse!
+  updateKnowledgeVault(knowledgeVaultInputData: KnowledgeVaultUpdateInput): KnowledgeVaultResponse!
   removeKnowledgeVault(KnowledgeVaultId:UNIQUEID!): StatusResponse!
   "provide document metadata to get document upload url, etc"
   uploadDocument(uploadDocumentInputData:DocumentInput!): DocumentUploadResponse!

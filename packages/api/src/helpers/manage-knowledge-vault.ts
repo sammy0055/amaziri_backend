@@ -24,6 +24,16 @@ export class KnowledgeVault {
     return await KnowledgeVaultEntry.create(data);
   };
 
+  updateKnowledgeVault = async (data: { _id: string; name: string }) => {
+    return await KnowledgeVaultEntry.findByIdAndUpdate(
+      data._id,
+      {
+        $set: { ...data },
+      },
+      { new: true }
+    );
+  };
+
   removeKnowledgeVault = async (vaultId: string) => {
     const doc = (await KnowledgeVaultEntry.findById(vaultId)
       .populate("documents")

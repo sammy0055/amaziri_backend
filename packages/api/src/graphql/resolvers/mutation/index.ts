@@ -12,12 +12,17 @@ import { updateAssistant } from "./assistant/update-assistant";
 import { removeAssistant } from "./assistant/remove-assistant";
 import { addXAccount } from "./integrations/add-x-account";
 import { addwhatSappAccount } from "./integrations/add-whatsapp";
-import { registerWhatSappPhoneNumber, testWhatsappMessaging, updateWhatSappAccount } from "./integrations/update-whatsapp";
+import {
+  registerWhatSappPhoneNumber,
+  testWhatsappMessaging,
+  updateWhatSappAccount,
+} from "./integrations/update-whatsapp";
 import { addWorkflow } from "./workflow/add-workflow";
 import { updateWorkflow } from "./workflow/update-workflow";
 import { removeWorkflow } from "./workflow/delete-workflow";
 import { runWorkflow } from "./workflow/run-workflow";
 import { addWorkflowSchedule } from "./workflow/add-shedule";
+import { updateKnowledgeVault } from "./knowledge_vault/update-knowledgevault";
 
 export const mutations = {
   signUp: createUser,
@@ -25,6 +30,7 @@ export const mutations = {
   updateProfile,
   organization,
   createKnowledgeVault,
+  updateKnowledgeVault,
   uploadDocument,
   addDocumentToVectorStore,
   removeDocument,
@@ -41,5 +47,5 @@ export const mutations = {
   updateWorkflow,
   removeWorkflow,
   runWorkflow,
-  addWorkflowSchedule
+  addWorkflowSchedule,
 };
