@@ -13,44 +13,69 @@ import {
 } from "./type";
 import { ScheduleRecurrence } from "./type/common";
 const ObjectId = Schema.Types.ObjectId;
-const Profile = new Schema<IProfile>({
-  email: { type: String, unique: true, required: true }, //index field
-  firstName: { type: String, required: false },
-  lastName: { type: String, required: false },
-  organizations: { type: [ObjectId] },
-});
+const Profile = new Schema<IProfile>(
+  {
+    email: { type: String, unique: true, required: true }, //index field
+    firstName: { type: String, required: false },
+    lastName: { type: String, required: false },
+    organizations: { type: [ObjectId] },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Organization = new Schema({
-  creator: { type: ObjectId, ref: "Profile", required: true }, //index
-  name: { type: String, unique: true, required: true },
-  description: { type: String },
-  knowledgeVaults: { type: [ObjectId], ref: "KnowledgeVault" },
-  xaccount: { type: ObjectId, ref: "XAccount" },
-  workflows: { type: [ObjectId], ref: "Workflow" },
-});
+const Organization = new Schema(
+  {
+    creator: { type: ObjectId, ref: "Profile", required: true }, //index
+    name: { type: String, unique: true, required: true },
+    description: { type: String },
+    knowledgeVaults: { type: [ObjectId], ref: "KnowledgeVault" },
+    xaccount: { type: ObjectId, ref: "XAccount" },
+    workflows: { type: [ObjectId], ref: "Workflow" },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const KnowledgeVault = new Schema<IKnowledgeVault>({
-  name: { type: String, unique: true, required: true },
-  documents: { type: [ObjectId], ref: "Documents", required: false },
-  organization: { type: ObjectId, ref: "Organization", required: true }, //index
-});
+const KnowledgeVault = new Schema<IKnowledgeVault>(
+  {
+    name: { type: String, unique: true, required: true },
+    documents: { type: [ObjectId], ref: "Documents", required: false },
+    organization: { type: ObjectId, ref: "Organization", required: true }, //index
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Documents = new Schema<IDocuments>({
-  organization: { type: ObjectId, ref: "Organization", required: true },
-  knowledgeVault: { type: ObjectId, ref: "KnowledgeVault", required: true }, //index
-  originalFileName: { type: String, required: true },
-  newFileName: { type: String, unique: true, required: true },
-});
+const Documents = new Schema<IDocuments>(
+  {
+    organization: { type: ObjectId, ref: "Organization", required: true },
+    knowledgeVault: { type: ObjectId, ref: "KnowledgeVault", required: true }, //index
+    originalFileName: { type: String, required: true },
+    newFileName: { type: String, unique: true, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const Assistant = new Schema<IAssistant>({
-  name: { type: String, required: true },
-  organization: { type: ObjectId, ref: "Organization", required: true },
-  description: { type: String },
-  type: { type: String, default: "NONE" },
-  brandVoice: { type: String },
-  knowledgeVault: { type: [ObjectId], ref: "KnowledgeVault" },
-  instructions: { type: [String] },
-});
+const Assistant = new Schema<IAssistant>(
+  {
+    name: { type: String, required: true },
+    organization: { type: ObjectId, ref: "Organization", required: true },
+    description: { type: String },
+    type: { type: String, default: "NONE" },
+    brandVoice: { type: String },
+    knowledgeVault: { type: [ObjectId], ref: "KnowledgeVault" },
+    instructions: { type: [String] },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const XAccount = new Schema<IXAccount>(
   {
@@ -88,13 +113,18 @@ const WhatSappAccount = new Schema<IWhatSappAccount>(
   }
 );
 
-const WorkflowAction = new Schema<IWorkflowAtion>({
-  actionName: { type: String, required: true },
-  stepOrder: { type: Number, required: true },
-  category: { type: String, required: true },
-  actionType: { type: String, required: true },
-  actionParameters: { type: Schema.Types.Mixed, required: true },
-});
+const WorkflowAction = new Schema<IWorkflowAtion>(
+  {
+    actionName: { type: String, required: true },
+    stepOrder: { type: Number, required: true },
+    category: { type: String, required: true },
+    actionType: { type: String, required: true },
+    actionParameters: { type: Schema.Types.Mixed, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const Workflow = new Schema<IWorkflow>(
   {
@@ -113,12 +143,17 @@ const ScheduleRecurrenceType = new Schema<ScheduleRecurrence>({
   endDate: { type: Date, required: false },
 });
 
-const WorkflowSchedule = new Schema<IWorkflowSchedule>({
-  organization: { type: ObjectId, ref: "Organization", required: true }, // index
-  workflow: { type: ObjectId, ref: "Workflow", required: true },
-  scheduledTime: { type: Date, required: true }, // index
-  recurrence: { type: ScheduleRecurrenceType },
-});
+const WorkflowSchedule = new Schema<IWorkflowSchedule>(
+  {
+    organization: { type: ObjectId, ref: "Organization", required: true }, // index
+    workflow: { type: ObjectId, ref: "Workflow", required: true },
+    scheduledTime: { type: Date, required: true }, // index
+    recurrence: { type: ScheduleRecurrenceType },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const sessionCache = new Schema<ISessionCache>(
   {
