@@ -29,12 +29,12 @@ export class ManageS3Storage {
     };
 
     const command = new PutObjectCommand(input);
-    return getSignedUrl(this.client, command, { expiresIn: 3600 });
+    return getSignedUrl(this.client, command, { expiresIn: 13600 });
   };
 
   downloadPresignedUrl = async (key: string) => {
     const command = new GetObjectCommand({ Bucket: this.bucketName, Key: key });
-    return getSignedUrl(this.client, command, { expiresIn: 3600 });
+    return getSignedUrl(this.client, command, { expiresIn: 13600 });
   };
 
   deleteObject = async (key: string) => {

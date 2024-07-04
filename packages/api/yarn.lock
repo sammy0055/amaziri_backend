@@ -2285,7 +2285,7 @@ agentkeepalive@^4.2.1:
 "amazir_data_model@file:../shared_modules/models":
   version "1.0.0"
   dependencies:
-    amaziri_workflow "file:../../../../../AppData/Local/Yarn/Cache/v6/npm-amazir-data-model-1.0.0-143cc87e-adae-4ecb-92d9-540d413466e1-1719347659955/node_modules/workflow"
+    amaziri_workflow "file:../../../../../AppData/Local/Yarn/Cache/v6/npm-amazir-data-model-1.0.0-8ea81ff3-ce02-4dd1-bf53-66e238388679-1720084199499/node_modules/workflow"
     mongoose "^8.3.4"
 
 "amaziri_workflow@file:../shared_modules/workflow":

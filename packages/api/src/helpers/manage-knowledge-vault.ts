@@ -4,6 +4,7 @@ import {
   Document,
   InputDocumentData,
   KnowledgeVault as KnowledgeVaultType,
+  ObjectId,
 } from "../types/common/organization";
 import { SessionCache } from "./manage-session-cache";
 import { v4 as uuid } from "uuid";
@@ -67,13 +68,13 @@ export class KnowledgeVault {
       knowledgeVault: knowledgeVault,
       originalFileName: fileName,
       newFileName: newFileName,
-    });
+    })
 
     await KnowledgeVaultEntry.findByIdAndUpdate(knowledgeVault, {
       $push: { documents: document._id },
     });
 
-    return document as Document & { _id: string };
+    return document as Document & { _id: ObjectId };
   };
 
   getDocument = async (documentId: string) => {

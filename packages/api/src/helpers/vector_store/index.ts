@@ -29,17 +29,20 @@ export class VectorStore {
 
   addDocument = async ({ fileName, knowledgeVault }: InputDocumentData) => {
     const { addDocument } = new KnowledgeVault(this.userEmail);
-    const { newFileName, _id } = await addDocument({
+    const { newFileName, _id, updateAt, createdAt } = await addDocument({
       fileName,
       knowledgeVault,
     });
     const { createPresignedUrl } = new ManageS3Storage();
-    const url = await createPresignedUrl(newFileName, _id);
+    const url = await createPresignedUrl(newFileName, String(_id));
     return {
+      _id,
       uploadUrl: url,
       knowledgeVault: knowledgeVault,
       originalFileName: fileName,
       newFileName: newFileName,
+      updateAt,
+      createdAt,
     };
   };
 

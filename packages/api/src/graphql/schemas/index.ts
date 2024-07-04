@@ -24,6 +24,8 @@ const Document = `
 knowledgeVault: UNIQUEID!
 originalFileName: FileName!
 newFileName: FileName!
+updatedAt: Date
+createdAt: Date
 `;
 
 const Assistant = `
@@ -95,6 +97,7 @@ type Document {
 }
 
 type DocumentUpload {
+  _id: UNIQUEID!
   uploadUrl: String!
   ${Document}
 }

@@ -25,6 +25,8 @@ export interface Document {
   knowledgeVault: ObjectId;
   originalFileName: string;
   newFileName: string;
+  updateAt: Date;
+  createdAt: Date;
 }
 
 export interface DocumentQueryInput {
@@ -44,7 +46,7 @@ export interface FileMetaData {
 
 export enum RESPONSE_STATUS {
   SUCCESSFUL = "SUCCESSFUL",
-  WORKFLOW_STARTED = "WORKFLOW_STARTED_SUCCESSFULLY"
+  WORKFLOW_STARTED = "WORKFLOW_STARTED_SUCCESSFULLY",
 }
 
 export interface Assistant {

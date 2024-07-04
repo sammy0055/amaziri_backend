@@ -23,7 +23,7 @@ export const removeKnowledgeVault = async (
     const deletedVault = await removeKnowledgeVault(KnowledgeVaultId);
     await removeDocumentFromVectoreStore(deletedVault._id, "knowledgeVault");
     if (!Array.isArray(deletedVault.documents)) throw new Error("no document");
-    if (!deletedVault.documents.length) {
+    if (deletedVault?.documents?.length !== 0) {
       const keys = deletedVault.documents.map((item) => item.newFileName);
       await deleteObjects(keys);
     }
