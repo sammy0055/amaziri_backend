@@ -112,7 +112,12 @@ type KnowledgeVault {
 type Assistant {
   _id: UNIQUEID!
   organization: UNIQUEID!
-  ${Assistant}
+  name: String!
+  description: String!
+  type: AssistantType!
+  brandVoice: String
+  knowledgeVault: [UNIQUEID]
+  instructions: [String]
 }
 
 type XAccount {
@@ -186,6 +191,11 @@ type KnowledgeVaultsResponse {
 
 type AssistantResponse {
   data: Assistant
+  ${ResponseStatus}
+}
+
+type AssistantsResponse {
+  data: [Assistant]
   ${ResponseStatus}
 }
 
@@ -312,6 +322,7 @@ type Query {
   getKnowledgeVault(VaultId: UNIQUEID!): KnowledgeVaultResponse!
   getKnowledgeVaults: KnowledgeVaultsResponse!
   queryAssistant(assistantQueryInput: AssistantQueryInput!): AssistantQueryResponse
+  getAssistants: AssistantsResponse!
 }
 
 type OrganizationMutation {

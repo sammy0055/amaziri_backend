@@ -55,13 +55,23 @@ export class Assistant {
   };
 
   assistantQuery = async ({ _id, queryText }: AssistantQueryInput) => {
-    const assistantDoc = await AssistantEntry.findById(_id) as Assistanttype;
+    const assistantDoc = (await AssistantEntry.findById(_id)) as Assistanttype;
     if (!assistantDoc) throw new Error("assistant does not exist");
 
     const { queryVectorStore } = new VectorStore(this.email);
     const filters = {
-        knowledgeVault: assistantDoc.knowledgeVault,
-    }
+      knowledgeVault: assistantDoc.knowledgeVault,
+    };
     return await queryVectorStore(queryText, filters);
+  };
+
+  getAssistants = async () => {
+    const { getSessionCache } = new SessionCache(this.email);
+    const { organizationProfileId } = await getSessionCache();
+    return await AssistantEntry.find({
+      organization: organizationProfileId,
+    })
+      .limit(10)
+      .lean();
   };
 }
