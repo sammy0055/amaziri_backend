@@ -1,5 +1,9 @@
 import path from "path";
-import { DocumentEntry, KnowledgeVaultEntry } from "../services/mongodb/schema";
+import {
+  AssistantEntry,
+  DocumentEntry,
+  KnowledgeVaultEntry,
+} from "../services/mongodb/schema";
 import {
   Document,
   InputDocumentData,
@@ -8,6 +12,8 @@ import {
 } from "../types/common/organization";
 import { SessionCache } from "./manage-session-cache";
 import { v4 as uuid } from "uuid";
+import { VectorStore } from "./vector_store";
+import { ManageS3Storage } from "../services/aws/simple-storage";
 
 export class KnowledgeVault {
   protected userEmail: string;
@@ -36,11 +42,33 @@ export class KnowledgeVault {
   };
 
   removeKnowledgeVault = async (vaultId: string) => {
+    const { removeDocumentFromVectoreStore } = new VectorStore(this.userEmail);
+    const { deleteObjects } = new ManageS3Storage();
+
     const doc = (await KnowledgeVaultEntry.findById(vaultId)
       .populate("documents")
       .exec()) as KnowledgeVaultType;
-    await KnowledgeVaultEntry.findByIdAndDelete(vaultId);
+
+    if (!doc) throw new Error("knowledgebase does not exist");
+    await AssistantEntry.updateMany(
+      { knowledgeVault: vaultId },
+      {
+        $pull: { knowledgeVault: vaultId },
+      }
+    );
+
+    await removeDocumentFromVectoreStore(vaultId, "knowledgeVault");
     await DocumentEntry.deleteMany({ _id: { $in: doc.documents } });
+    await KnowledgeVaultEntry.findByIdAndDelete(vaultId);
+
+    // remove from s3
+    const _doc = doc;
+    if (!Array.isArray(_doc.documents)) throw new Error("no document");
+    if (_doc?.documents?.length !== 0) {
+      const keys = _doc.documents.map((item) => item.newFileName);
+      await deleteObjects(keys);
+    }
+
     return doc as KnowledgeVaultType & { _id: string };
   };
 
@@ -68,7 +96,7 @@ export class KnowledgeVault {
       knowledgeVault: knowledgeVault,
       originalFileName: fileName,
       newFileName: newFileName,
-    })
+    });
 
     await KnowledgeVaultEntry.findByIdAndUpdate(knowledgeVault, {
       $push: { documents: document._id },
