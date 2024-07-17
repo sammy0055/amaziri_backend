@@ -10,6 +10,7 @@ import {
   IWorkflow,
   IXAccount,
   IWorkflowSchedule,
+  ISubmittedContent,
 } from "./type";
 import { ScheduleRecurrence } from "./type/common";
 const ObjectId = Schema.Types.ObjectId;
@@ -115,7 +116,8 @@ const WhatSappAccount = new Schema<IWhatSappAccount>(
 
 const WorkflowAction = new Schema<IWorkflowAtion>(
   {
-    actionName: { type: String, required: true },
+    actionName: { type: String, unique: true, required: true },
+    description: { type: String, required: true },
     stepOrder: { type: Number, required: true },
     category: { type: String, required: true },
     actionType: { type: String, required: true },
@@ -136,6 +138,22 @@ const Workflow = new Schema<IWorkflow>(
     timestamps: true,
   }
 );
+
+const submitedContent = new Schema<ISubmittedContent>({
+  organization: { type: String },
+  workflowId: { type: String },
+  approvals: { type: [String] },
+  contentTypes: { type: [String] },
+  content: new Schema({
+    text: { type: String },
+    media: { type: String },
+  }),
+  approvalState: new Schema({
+    approvedBy: { type: String },
+    approvedDate: { type: Date },
+    isApproved: { type: Boolean, default: false },
+  }),
+});
 
 const ScheduleRecurrenceType = new Schema<ScheduleRecurrence>({
   type: { type: String, required: true },
@@ -185,9 +203,13 @@ const AssistantEntry =
 const XAccountEntry = models.XAccount || model("XAccount", XAccount);
 const WhatSappAccountEntry =
   models.WhatSappAccount || model("WhatSappAccount", WhatSappAccount);
+const WorkflowActionEntry =
+  models.WorkflowAction || model("WorkflowAction", WorkflowAction);
 const WorkflowEntry = models.Workflow || model<IWorkflow>("Workflow", Workflow);
 const WorkflowScheduleEntry =
   models.WorkflowSchedule || model("WorkflowSchedule", WorkflowSchedule);
+const SubmitedContentEntry =
+  models.submitedContent || model("submitedContent", submitedContent);
 export {
   SessionCacheEntry,
   ProfileEntry,
@@ -197,6 +219,8 @@ export {
   AssistantEntry,
   XAccountEntry,
   WhatSappAccountEntry,
+  WorkflowActionEntry,
   WorkflowEntry,
   WorkflowScheduleEntry,
+  SubmitedContentEntry,
 };

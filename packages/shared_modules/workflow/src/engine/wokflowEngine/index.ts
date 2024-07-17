@@ -4,23 +4,38 @@ import {
   GenerateTextWithkowledgeBaseAssistant,
   SendWhatSappMessage,
 } from "../../actions";
+import {
+  ContentApproval,
+  ContentGeneration,
+  ContentSuggestion,
+} from "../../actions/content_creation";
 
 type ActionRegistry = {
   [key in ActionNames]: any;
 };
+
+interface _Workflow extends Workflow {
+  _id: string;
+}
 
 class WorkflowEngine extends EventEmitter {
   protected actionRegistry: ActionRegistry = {
     [ActionNames.SEND_MESSAGES]: SendWhatSappMessage,
     [ActionNames.GENERATE_TEXT_WITH_KNOWLEDGEBASE_ASSISTANT]:
       GenerateTextWithkowledgeBaseAssistant,
+    [ActionNames.Content_Suggestion]: ContentSuggestion,
+    [ActionNames.Content_Generation]: ContentGeneration,
+    [ActionNames.Content_Approval]: ContentApproval,
   };
 
-  executeWorkflow = async (workflow: Workflow): Promise<void> => {
+  executeWorkflow = async ({
+    steps,
+    organization,
+    _id,
+  }: _Workflow): Promise<void> => {
     let stepData: any = null;
-    const sortedSteps = workflow.steps.sort(
-      (a, b) => a.stepOrder - b.stepOrder
-    );
+    const worlflowData = { organization, _id };
+    const sortedSteps = steps.sort((a, b) => a.stepOrder - b.stepOrder);
 
     for (const step of sortedSteps) {
       const ActionClass = this.actionRegistry[step.actionName];
@@ -28,10 +43,10 @@ class WorkflowEngine extends EventEmitter {
         throw new Error(`Action type ${step.actionName} not supported.`);
       }
 
-      const action = ActionClass(step.actionParameters as any);
+      const action = ActionClass(step.actionParameters as any, worlflowData);
       if (!action.validateParameters()) {
         throw new Error(
-          `Invalid parameters for action type ${step.actionType}.`
+          `Invalid parameters for action type ${step.actionName}.`
         );
       }
 
@@ -49,3 +64,6 @@ class WorkflowEngine extends EventEmitter {
 }
 
 export { WorkflowEngine };
+
+
+// ensure that all workflows are saved before running it.

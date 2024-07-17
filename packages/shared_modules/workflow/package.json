@@ -5,14 +5,27 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev src/index.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "script:test": "ts-node-dev scripts/index.ts"
   },
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.12",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "@langchain/mongodb": "^0.0.4",
+    "@langchain/openai": "^0.2.2",
+    "amazir_data_model": "file:../models",
+    "dotenv": "^16.4.5",
+    "langchain": "^0.2.10",
+    "mongodb": "^6.8.0"
+  },
+  "resolutions": {
+    "@langchain/core": "~0.1.56"
   }
 }

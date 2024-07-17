@@ -11,5 +11,5 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "exclude": ["src/type", "types", "dist"]
+  "exclude": ["src/type", "types", "dist", "scripts"]
 }
