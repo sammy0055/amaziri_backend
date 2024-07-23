@@ -9,16 +9,12 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 app.get("/api", async (req, res) => {
-  console.log("====================================");
-  console.log(req.body);
-  console.log("====================================");
   res.status(200).json({
-    data: `data working pafectly, ${process.env.TEST_SAM}`,
-    environmentation: process.env.TEST_SAM,
+    data: `api working pafectly`,
   });
 });
 
-app.get("/webhooks", whatsappWebhook);
+app.all("/webhooks", whatsappWebhook);
 
 const PORT = 5000;
 app.listen(PORT, () => console.log("server running on port:", PORT));

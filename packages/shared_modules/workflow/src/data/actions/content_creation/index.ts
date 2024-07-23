@@ -5,7 +5,6 @@ const ContentSuggestion: Action<ActionNames.Content_Generation> = {
   description: "Use AI to recommend content topics based on industry trends",
   actionType: "ASSISTANTS",
   category: "Content Creation and Curation",
-  stepOrder: 0,
   actionParameters: {
     input: [],
     assistantId: "",
@@ -19,7 +18,6 @@ const ContentGeneration: Action<ActionNames.Content_Generation> = {
   description: "Use AI to create engaging posts",
   actionType: "ASSISTANTS",
   category: "Content Creation and Curation",
-  stepOrder: 0,
   actionParameters: {
     assistantId: "",
     contentType: "text",
@@ -33,7 +31,6 @@ const ContentApproval: Action<ActionNames.Content_Approval> = {
   description: "Route created content for review and approval",
   actionType: "TOOLING",
   category: "Content Creation and Curation",
-  stepOrder: 0,
   actionParameters: {
     approvers: [],
     contentType: "text",

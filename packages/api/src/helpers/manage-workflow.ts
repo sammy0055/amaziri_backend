@@ -46,7 +46,7 @@ export class ManageWorkflow {
 
   executeWorkflowAndNotifyUser = async (
     engine: WorkflowEngine,
-    workflow: Workflow & { _id: ObjectId }
+    workflow: Workflow & { _id: string }
   ) => {
     engine.on("stepResult", (result) => {
       pubsub.publish("POST_CREATED", {

@@ -45,12 +45,30 @@ accessToken: String!
 refreshToken: String!
 `;
 
-const WorkflowAction = `
+const ActionData = `
 actionName: WorkflowActionName!
-stepOrder: Int
+description: String!
+isInputRequired: Boolean!
 category: WorkflowActionCategory!
 actionType: WorkflowActionType!
 actionParameters: JSONScalar 
+`;
+
+const ActionMeasured = `
+  width: Float
+  height: Float
+`;
+
+const ActionPosition = `
+x: Float
+y: Float
+`;
+
+const ActionEdge = `
+  id:String 
+  source: String 
+  target: String 
+  type: String
 `;
 export const typeDefs = `#graphql
 scalar Date
@@ -138,15 +156,41 @@ type WhatSappAccountPhoneNumber {
   isVerified: String
 }
 
+
+type ActionMeasured {
+  ${ActionMeasured}
+}
+
+type ActionPosition {
+  ${ActionPosition}
+}
+
+type ActionNodeData {
+  ${ActionData}
+}
+type ActionNode {
+  id: String!
+  type: String
+  measured: ActionMeasured!
+  position: ActionPosition!
+  data: ActionNodeData!
+}
+
+type ActionEdge {
+  ${ActionEdge}
+}
+
 type WorkflowAction {
-  ${WorkflowAction}
+  nodes: [ActionNode]
+  edges: [ActionEdge]
 }
 
 
 
 type Workflow {
+  _id: UNIQUEID!
   workflowName: String
-  steps: [WorkflowAction]
+  steps: WorkflowAction
 }
 
 type SignUpResponse {
@@ -284,19 +328,44 @@ input TestWhatsappMessagingInput {
   _id: UNIQUEID!
 }
 
+input ActionMeasuredInput {
+  ${ActionMeasured}
+}
+
+input ActionPositionInput {
+  ${ActionPosition}
+}
+
+input ActionNodeDataInput {
+  ${ActionData}
+}
+
+input ActionNodeInput {
+  id: String!
+  type: String
+  measured: ActionMeasuredInput!
+  position: ActionPositionInput!
+  data: ActionNodeDataInput!
+}
+
+input ActionEdgeInput {
+  ${ActionEdge}
+}
+
 input WorkflowActionInput {
-  ${WorkflowAction} 
+  nodes: [ActionNodeInput]
+  edges:[ActionEdgeInput]
 }
 
 input WorkflowInput {
   workflowName: String
-  steps: [WorkflowActionInput]
+  steps: WorkflowActionInput
 }
 
 input WorkflowUpdateInput {
   _id: UNIQUEID!
   workflowName: String
-  steps: [WorkflowActionInput]
+  steps: WorkflowActionInput
 }
 
 input WorkflowScheduleRecurrenceInput {

@@ -19,6 +19,9 @@ export const addWorkflow = async (
     const workfow = await validateWorkflowInput(workflowInput);
     const { addWorkflow } = new ManageWorkflow(email);
     const data = await addWorkflow(workfow);
+    console.log("====================================");
+    console.log(data);
+    console.log("====================================");
     return RESPONSE_STATUS.SUCCESSFUL;
   } catch (error: any) {
     errorHandler(error);

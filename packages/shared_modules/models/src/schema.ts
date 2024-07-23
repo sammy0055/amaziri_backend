@@ -114,25 +114,39 @@ const WhatSappAccount = new Schema<IWhatSappAccount>(
   }
 );
 
-const WorkflowAction = new Schema<IWorkflowAtion>(
-  {
-    actionName: { type: String, unique: true, required: true },
-    description: { type: String, required: true },
-    stepOrder: { type: Number, required: true },
-    category: { type: String, required: true },
-    actionType: { type: String, required: true },
-    actionParameters: { type: Schema.Types.Mixed, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
+const WorkflowActionData = new Schema<IWorkflowAtion>({
+  actionName: { type: String, unique: true, required: true },
+  description: { type: String, required: true },
+  category: { type: String, required: true },
+  actionType: { type: String, required: true },
+  actionParameters: { type: Schema.Types.Mixed, required: true },
+});
+
+const WorkflowActionNode = new Schema({
+  id: { type: String, required: true },
+  type: { type: String, required: true },
+  measured: { type: { width: Number, height: Number } },
+  position: { type: { x: Number, y: Number }, required: true },
+  data: { type: WorkflowActionData, required: true },
+});
+
+const WorkflowActionEdges = new Schema({
+  id: { type: String, required: true },
+  source: { type: String, required: true },
+  target: { type: String, required: true },
+  type: { type: String, required: true },
+});
+
+const WorkflowAction = new Schema({
+  nodes: { type: [WorkflowActionNode], required: true },
+  edges: { type: [WorkflowActionEdges], required: true },
+});
 
 const Workflow = new Schema<IWorkflow>(
   {
     organization: { type: ObjectId, ref: "Organization", required: true }, // index
     workflowName: { type: String, required: true },
-    steps: { type: [WorkflowAction], required: true },
+    steps: { type: WorkflowAction, required: true },
   },
   {
     timestamps: true,

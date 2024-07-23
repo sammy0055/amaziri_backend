@@ -31,17 +31,44 @@ export interface Workflow {
   workflowName: string;
   createdAt: Date;
   updatedAt: Date;
-  steps: Action<keyof ActionParametersType>[];
+  steps: {
+    nodes: ActionNode[]
+    edges: ActionEdge[]
+  };
+}
+
+// ActionNode 
+export interface ActionNode {
+  id: string;
+  type?: string;
+  measured?: { width?: number; height?: number };
+  position: { x: number; y: number };
+  data: Action<keyof ActionParametersType>;
+}
+
+//ActionEdge
+export interface ActionEdge {
+  id: string;
+  source: string;
+  target: string;
+  type: string;
 }
 
 // Step model
 export interface Action<T extends keyof ActionParametersType> {
   actionName: T;
   description: string;
-  stepOrder: number;
   category: ActioCategoryUnion;
   actionType: ActionTypeUnion;
   actionParameters: ActionParametersType[T]; // Use appropriate types or interfaces for action parameters
+}
+
+export interface ReactFlowTypes {
+  id: string;
+  type?: string;
+  measured?: { width: number; height: number };
+  position: { x: number; y: number };
+  data: Action<any>;
 }
 
 type ActionTypeUnion = `${ActionType}`;
