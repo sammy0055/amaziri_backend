@@ -27,7 +27,7 @@ export class VectorStore {
   queryVectorStore = async (
     queryText: string,
     filter: { knowledgeVault: ObjectId[] }
-  ) => {
+  ): Promise<any> => {
     const client = new MongoClient(getEnv("MONGO_URI") || "");
     const collection = client.db(dbName).collection(collectionName);
     const chatModel = this.chatModelInstance();

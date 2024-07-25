@@ -117,6 +117,8 @@ const WhatSappAccount = new Schema<IWhatSappAccount>(
 const WorkflowActionData = new Schema<IWorkflowAtion>({
   actionName: { type: String, unique: true, required: true },
   description: { type: String, required: true },
+  isInputRequired: { type: Boolean, default: false },
+  trigger: { type: Boolean, default: false },
   category: { type: String, required: true },
   actionType: { type: String, required: true },
   actionParameters: { type: Schema.Types.Mixed, required: true },

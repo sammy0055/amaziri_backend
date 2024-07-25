@@ -7,11 +7,11 @@ const SendWhatSappMessage = (
     return true;
   };
 
-  const execute = async (data: any): Promise<any> => {
-    const phoneNumberId = parameters.whatsappPhoneNumberId;
-    const url = `https://graph.facebook.com/v20.0/${phoneNumberId}/messages`;
+  const execute = async (data: any, previousResult:any): Promise<any> => {
+    // const phoneNumberId = parameters.whatsappPhoneNumberId;
+    // const url = `https://graph.facebook.com/v20.0/${phoneNumberId}/messages`;
     // await fetch(url);
-    return parameters;
+    return previousResult;
   };
 
   return {
@@ -27,8 +27,8 @@ const GenerateTextWithkowledgeBaseAssistant = (
     return true;
   };
 
-  const execute = async (data: any): Promise<any> => {
-    return params;
+  const execute = async (data: any, previousResult:any): Promise<any> => {
+    return previousResult;
   };
 
   return {

@@ -45,10 +45,10 @@ export class ManageWorkflow {
   };
 
   executeWorkflowAndNotifyUser = async (
-    engine: WorkflowEngine,
+    engine: any,
     workflow: Workflow & { _id: string }
   ) => {
-    engine.on("stepResult", (result) => {
+    engine.on("sucess", (result) => {
       pubsub.publish("POST_CREATED", {
         postCreated: {
           author: "Ali Baba",

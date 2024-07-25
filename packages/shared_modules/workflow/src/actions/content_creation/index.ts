@@ -7,7 +7,7 @@ import {
 } from "../../types/content_creation";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { areValuesValid } from "../../utils/validation";
-import { WorkflowData } from "../../types";
+import { ActionNode, WorkflowData } from "../../types";
 import { SubmitedContentEntry } from "amazir_data_model";
 
 const ContentSuggestion = (
@@ -20,20 +20,24 @@ const ContentSuggestion = (
     return false;
   };
 
-  const execute = async (_data: any): Promise<any> => {
-    let trending_topics = params?.input?.join("") || _data;
-    if (!trending_topics) trending_topics = "";
-    // ensure that {input} cant be delete from the prompt string
-    // on the client side
-    const promptTemplate = PromptTemplate.fromTemplate(params.prompt);
-    const { value } = await promptTemplate.invoke({ input: trending_topics });
+  const execute = async (
+    node: ActionNode,
+    previousResult: any
+  ): Promise<any> => {
+    // let trending_topics = params?.input?.join("")
+    // if (!trending_topics) trending_topics = "";
+    // // ensure that {input} cant be delete from the prompt string
+    // // on the client side
+    // const promptTemplate = PromptTemplate.fromTemplate(params.prompt);
+    // const { value } = await promptTemplate.invoke({ input: trending_topics });
 
-    const { assistantQuery } = new AssistantManager();
-    const data = await assistantQuery({
-      _id: params.assistantId,
-      prompt: value,
-    });
-    return data.text;
+    // const { assistantQuery } = new AssistantManager();
+    // const data = await assistantQuery({
+    //   _id: params.assistantId,
+    //   prompt: value,
+    // });
+    // return data.text;
+    return { result: node.id, previousResult: "suggestion" };
   };
 
   return {
@@ -59,14 +63,18 @@ const ContentGeneration = (
     return false;
   };
 
-  const execute = async (_data: any): Promise<any> => {
-    const _input = input.join("") || _data;
-    const promptTemplate = PromptTemplate.fromTemplate(prompt);
-    const { value } = await promptTemplate.invoke({ input: _input });
+  const execute = async (
+    node: ActionNode,
+    previousResult: any
+  ): Promise<any> => {
+    // const _input = input.join("") || _data;
+    // const promptTemplate = PromptTemplate.fromTemplate(prompt);
+    // const { value } = await promptTemplate.invoke({ input: _input });
 
-    const { assistantQuery } = new AssistantManager();
-    const data = await assistantQuery({ _id: assistantId, prompt: value });
-    return data.text;
+    // const { assistantQuery } = new AssistantManager();
+    // const data = await assistantQuery({ _id: assistantId, prompt: value });
+    // return data.text;
+    return { result: node.id, previousResult: "generation" };
   };
 
   return {
@@ -89,25 +97,29 @@ const ContentApproval = (
     return false;
   };
 
-  const execute = async (data: any): Promise<any> => {
-    const contentInput = params?.input || data;
-    const content: SubmitedContentType = {
-      organization: workflow.organization,
-      workflowId: workflow._id,
-      approvals: params.approvers,
-      contentTypes: [params?.contentType],
-      content: {
-        text: contentInput,
-        media: "",
-      },
-      approvalState: {
-        isApproved: false,
-        approvedBy: "",
-      },
-    };
-    const resData = await SubmitedContentEntry.create(content);
-    // send notification to approvals
-    return resData;
+  const execute = async (
+    node: ActionNode,
+    previousResult: any
+  ): Promise<any> => {
+    // const contentInput = params?.input
+    // const content: SubmitedContentType = {
+    //   organization: workflow.organization,
+    //   workflowId: workflow._id,
+    //   approvals: params.approvers,
+    //   contentTypes: [params?.contentType],
+    //   content: {
+    //     text: contentInput,
+    //     media: "",
+    //   },
+    //   approvalState: {
+    //     isApproved: false,
+    //     approvedBy: "",
+    //   },
+    // };
+    // const resData = await SubmitedContentEntry.create(content);
+    // // send notification to approvals
+    // return resData;
+    return { result: node.id, previousResult: "approval" };
   };
 
   return {

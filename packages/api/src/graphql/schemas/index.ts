@@ -49,6 +49,7 @@ const ActionData = `
 actionName: WorkflowActionName!
 description: String!
 isInputRequired: Boolean!
+trigger: Boolean
 category: WorkflowActionCategory!
 actionType: WorkflowActionType!
 actionParameters: JSONScalar 

@@ -58,6 +58,8 @@ export interface ActionEdge {
 export interface Action<T extends keyof ActionParametersType> {
   actionName: T;
   description: string;
+  trigger?: boolean;
+  isInputRequired: boolean;
   category: ActioCategoryUnion;
   actionType: ActionTypeUnion;
   actionParameters: ActionParametersType[T]; // Use appropriate types or interfaces for action parameters
