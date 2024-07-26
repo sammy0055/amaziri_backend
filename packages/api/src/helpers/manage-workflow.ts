@@ -3,10 +3,11 @@ import {
   WorkflowEntry,
   WorkflowScheduleEntry,
 } from "amazir_data_model";
-import { Workflow, WorkflowEngine } from "amaziri_workflow";
+import { ActionNode, Workflow, WorkflowEngine } from "amaziri_workflow";
 import { SessionCache } from "./manage-session-cache";
 import { ObjectId } from "../types/common/organization";
 import { pubsub } from "../graphql";
+import { WorkflowSubscription } from "../types";
 
 export class ManageWorkflow {
   protected email: string;
@@ -45,21 +46,20 @@ export class ManageWorkflow {
   };
 
   executeWorkflowAndNotifyUser = async (
-    engine: any,
+    engine: WorkflowEngine,
     workflow: Workflow & { _id: string }
   ) => {
-    engine.on("sucess", (result) => {
-      pubsub.publish("POST_CREATED", {
-        postCreated: {
-          author: "Ali Baba",
-          comment: "Open sesame",
+    engine.on("success", ({ data }: { data: { node: ActionNode } }) => {
+      pubsub.publish(WorkflowSubscription.PROCESS_RUNNING, {
+        workflowProcess: {
+          node: data.node,
           metaData: {
-            workflowId: workflow?._id,
+            workflowId: String(workflow._id),
           },
         },
       });
     });
-    await engine.executeWorkflow(workflow);
+    await engine.workflowRunner({ workflow });
   };
 
   executeWorkflow = async (engine: WorkflowEngine, _id: ObjectId) => {

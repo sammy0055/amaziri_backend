@@ -50,6 +50,7 @@ actionName: WorkflowActionName!
 description: String!
 isInputRequired: Boolean!
 trigger: Boolean
+result: JSONScalar
 category: WorkflowActionCategory!
 actionType: WorkflowActionType!
 actionParameters: JSONScalar 
@@ -259,9 +260,8 @@ type WhatSappAccountResponse {
   ${ResponseStatus}
 }
 
-type PostCreatedResponse {
-  author: String
-  comment: String
+type WorkflowProcessResponse {
+  node: ActionNode!
 }
 
 input ProfileInput {
@@ -430,7 +430,9 @@ type Mutation {
 
 
 type Subscription {
-  postCreated(workflowId: UNIQUEID!): PostCreatedResponse
+  workflowProcess(workflowId: UNIQUEID!): WorkflowProcessResponse
   }
 
 `;
+
+// WorkflowProcessResponse

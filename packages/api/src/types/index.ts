@@ -3,3 +3,7 @@ export enum ScheduleRecurrenceType {
     WEEKLY = "WEEKLY",
     YEARLY ="YEARLY"
 }
+
+export enum WorkflowSubscription {
+  PROCESS_RUNNING = "PROCESS_RUNNING",
+}
