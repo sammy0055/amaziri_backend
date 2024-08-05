@@ -32,12 +32,12 @@ export interface Workflow {
   createdAt: Date;
   updatedAt: Date;
   steps: {
-    nodes: ActionNode[]
-    edges: ActionEdge[]
+    nodes: ActionNode[];
+    edges: ActionEdge[];
   };
 }
 
-// ActionNode 
+// ActionNode
 export interface ActionNode {
   id: string;
   type?: string;
@@ -60,6 +60,7 @@ export interface Action<T extends keyof ActionParametersType> {
   description: string;
   trigger?: boolean;
   isInputRequired: boolean;
+  result?: any;
   category: ActioCategoryUnion;
   actionType: ActionTypeUnion;
   actionParameters: ActionParametersType[T]; // Use appropriate types or interfaces for action parameters

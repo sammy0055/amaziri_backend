@@ -12,7 +12,6 @@ import {
 import { ActionNames, ActionNode, Workflow } from "../../types";
 import { getEnv } from "../../utils";
 import EventEmitter from "events";
-import { rejects } from "assert";
 
 const agenda = new Agenda({ db: { address: getEnv("MONGO_URI")! } });
 
@@ -46,6 +45,10 @@ agenda.define("process node", async (job: Job<JobWorkflowParams>) => {
   //   );
   // }
   const result = await action.execute(node, previousResult);
+  nodes?.forEach((_node) => {
+    if (_node.id === node.id) node.data.result = result || null;
+  });
+
   const nextEdges = edges?.filter((edge) => edge.source === node.id);
   if (nextEdges)
     for (const edge of nextEdges) {
@@ -70,7 +73,7 @@ agenda.on("complete", async (job) => {
 
 const workflowExecution = async (workflow: Workflow) => {
   // add actionNode to queue
-  const { nodes, edges } = workflow.steps;
+  const { nodes, edges } = workflow?.steps;
   const triggerNode = nodes.find((node) => node.data.trigger);
   if (!triggerNode) throw new Error("trigger node was not found");
   await agenda.now("process node", {
